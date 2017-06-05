@@ -1,0 +1,17 @@
+{
+  "parser": "babel-eslint",
+  "plugins": [
+    "html"
+  ],
+  "env": {
+    "browser": true
+  },
+  "globals": {
+    "Laravel": true
+  },
+  "extends": "standard",
+  "rules": {
+    "no-unused-vars": "warn",
+    "no-self-compare": "off"
+  }
+}
