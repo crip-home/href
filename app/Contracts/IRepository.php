@@ -13,7 +13,7 @@ interface IRepository
     public function getTable(): string;
 
     /**
-     * Get current repository full model class name.
+     * Get current repository model full class name.
      * @return string
      */
     public function modelClass(): string;

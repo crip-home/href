@@ -40,7 +40,7 @@ abstract class Repository implements IRepository
     }
 
     /**
-     * Get current repository full model class name.
+     * Get current repository model full class name.
      * @return string
      */
     abstract function modelClass(): string;
