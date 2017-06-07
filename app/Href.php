@@ -1,6 +1,7 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
  * Class Href
@@ -22,4 +23,15 @@ class Href extends Model
         'parent_id', 'user_id', 'date_added', 'index', 'visible', 'title',
         'url',
     ];
+
+    /**
+     * Many to many relation with tags table.
+     * @return BelongsToMany
+     */
+    public function tags()
+    {
+        return $this->belongsToMany(
+            Tag::class, 'href_tags', 'tag_id', 'href_id'
+        );
+    }
 }
