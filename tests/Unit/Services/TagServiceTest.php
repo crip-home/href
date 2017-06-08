@@ -1,7 +1,7 @@
 <?php namespace Tests\Services;
 
 use App\Href;
-use App\Services\TagsService;
+use App\Services\TagService;
 use App\Tag;
 use App\User;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
@@ -13,10 +13,8 @@ use Tests\TestCase;
  */
 class TagServiceTest extends TestCase
 {
-    use DatabaseMigrations;
-
     /**
-     * @var TagsService
+     * @var TagService
      */
     private $tagService;
 
@@ -27,7 +25,7 @@ class TagServiceTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->tagService = $this->app->make(TagsService::class);
+        $this->tagService = $this->app->make(TagService::class);
     }
 
     /**
@@ -38,7 +36,7 @@ class TagServiceTest extends TestCase
     {
         $tag = factory(Tag::class)->make(['tag' => 'Hello']);
 
-        $this->tagService->create($tag);
+        $this->tagService->create($tag->toArray());
 
         $this->assertDatabaseHas('tags', [
             'tag' => 'Hello'
@@ -49,31 +47,30 @@ class TagServiceTest extends TestCase
      * Test service can retrieve most used tags with default parameters.
      * @return void
      */
-    public function testCanGetTagsRelatedToHref()
+    public function testCanGetOnlyMostUsedTagsRelatedToHref()
     {
-        $tag = factory(Tag::class)->create(['tag' => 'Hello']);
         $user = factory(User::class)->create();
+
+        // tag with 5 relations
+        $tag = factory(Tag::class)->create(['tag' => 'Hello']);
         factory(Href::class, 5)
             ->create(['user_id' => $user->id, 'visible' => true])
             ->each(function (Href $href) use ($tag) {
                 $href->tags()->sync([$tag->id]);
             });
 
-        $tags = $this->tagService->getMostUsed();
+        // tag with 4 relations (should not be included in results)
+        $tag = factory(Tag::class)->create(['tag' => 'Hello 2']);
+        factory(Href::class, 4)
+            ->create(['user_id' => $user->id, 'visible' => true])
+            ->each(function (Href $href) use ($tag) {
+                $href->tags()->sync([$tag->id]);
+            });
 
-        $hrefs = Href::whereVisible(true)->select(['id']);
-        $allTags = Tag::all(['id']);
-
-        $this->assertEquals(
-            5, $hrefs->count(), 'Should create five visible hrefs'
-        );
-
-        $this->assertEquals(
-            1, $allTags->count(), 'Should create one tag'
-        );
+        $tagsCount = $this->tagService->getMostUsed()->count();
 
         $this->assertEquals(
-            1, $tags->count(), 'Should find one tag where has five relations with hrefs table'
+            1, $tagsCount, 'Should find one tag where has five relations with hrefs table'
         );
     }
 }

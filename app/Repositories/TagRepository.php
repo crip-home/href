@@ -28,9 +28,10 @@ class TagRepository extends Repository implements ITagRepository
     public function joinHrefUsageCount(): Builder
     {
         $query = '(
-            SELECT `pivot`.`tag_id`, COUNT(`pivot`.`tag_id`) AS `tag_count` 
+            SELECT `pivot`.`tag_id`
+                 , COUNT(`pivot`.`tag_id`) AS `tag_count` 
               FROM `href_tags` as `pivot`
-              LEFT JOIN `hrefs` as `h` ON `h`.`id` = `pivot`.`tag_id`
+              LEFT JOIN `hrefs` as `h` ON `h`.`id` = `pivot`.`href_id`
              WHERE `h`.`visible` = 1
              GROUP BY `tag_id`) AS `tc`';
 

@@ -8,7 +8,7 @@ use Illuminate\Support\Collection;
  * Class TagsService
  * @package App\Services
  */
-class TagsService
+class TagService
 {
     /**
      * @var ITagRepository
@@ -30,7 +30,7 @@ class TagsService
     {
         return $this->tagRepository
             ->joinHrefUsageCount()
-            ->where('tag_count', '>', $minUsage)
+            ->where('tag_count', '>=', $minUsage)
             ->orderBy('tag_count', 'desc')
             ->limit($count)
             ->get();
@@ -38,13 +38,13 @@ class TagsService
 
     /**
      * Save tag instance in database.
-     * @param Tag $tag
+     * @param array $input
      * @return Tag
      */
-    public function create(Tag $tag): Tag
+    public function create(array $input): Tag
     {
         /** @var Tag $model */
-        $model = $this->tagRepository->create($tag->toArray());
+        $model = $this->tagRepository->create($input);
 
         return $model;
     }

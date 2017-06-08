@@ -31,7 +31,7 @@ class Href extends Model
     public function tags()
     {
         return $this->belongsToMany(
-            Tag::class, 'href_tags', 'tag_id', 'href_id'
+            Tag::class, 'href_tags', 'href_id', 'tag_id'
         );
     }
 }
