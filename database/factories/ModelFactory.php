@@ -43,3 +43,9 @@ $factory->define(App\Href::class, function (Faker\Generator $faker) use (&$i) {
         'url' => $faker->url,
     ];
 });
+
+$factory->define(App\Category::class, function (Faker\Generator $faker) {
+    return [
+        'title' => $faker->sentence(2),
+    ];
+});
