@@ -1,6 +1,6 @@
 <?php namespace App\Http\Controllers;
 
-use App\Services\TagService;
+use App\Services\HrefService;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\View\View;
 
@@ -11,12 +11,12 @@ use Illuminate\View\View;
 class HrefController extends Controller
 {
     /**
-     * @param TagService $tagService
+     * @param HrefService $hrefService
      * @return Factory|View
      */
-    public function index(TagService $tagService)
+    public function index(HrefService $hrefService)
     {
-        $tags = $tagService->getMostUsed();
+        $tags = $hrefService->getMostUsedTags();
         return view('home');
     }
 }

@@ -2,6 +2,7 @@
 
 use App\Contracts\IHrefRepository;
 use App\Href;
+use Illuminate\Support\Collection;
 
 /**
  * Class HrefRepository

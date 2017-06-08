@@ -1,6 +1,7 @@
 <?php namespace App\Contracts;
 
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
 /**
  * Interface ITagRepository
@@ -13,4 +14,12 @@ interface ITagRepository extends IRepository
      * @return Builder
      */
     public function joinHrefUsageCount(): Builder;
+
+    /**
+     * Get most used tags.
+     * @param int $count
+     * @param int $minUsage
+     * @return Collection
+     */
+    public function getMostUsed(int $count, int $minUsage): Collection;
 }

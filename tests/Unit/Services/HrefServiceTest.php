@@ -1,22 +1,21 @@
 <?php namespace Tests\Services;
 
 use App\Href;
-use App\Services\TagService;
+use App\Services\HrefService;
 use App\Tag;
 use App\User;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Tests\TestCase;
 
 /**
- * Class TagServiceTest
+ * Class HrefServiceTest
  * @package Tests\Services
  */
-class TagServiceTest extends TestCase
+class HrefServiceTest extends TestCase
 {
     /**
-     * @var TagService
+     * @var HrefService
      */
-    private $tagService;
+    private $hrefService;
 
     /**
      * Setup the test environment.
@@ -25,22 +24,7 @@ class TagServiceTest extends TestCase
     public function setUp()
     {
         parent::setUp();
-        $this->tagService = $this->app->make(TagService::class);
-    }
-
-    /**
-     * Test service can create method.
-     * @return void
-     */
-    public function testCanCreateTag()
-    {
-        $tag = factory(Tag::class)->make(['tag' => 'Hello']);
-
-        $this->tagService->create($tag->toArray());
-
-        $this->assertDatabaseHas('tags', [
-            'tag' => 'Hello'
-        ]);
+        $this->hrefService = $this->app->make(HrefService::class);
     }
 
     /**
@@ -67,7 +51,7 @@ class TagServiceTest extends TestCase
                 $href->tags()->sync([$tag->id]);
             });
 
-        $tagsCount = $this->tagService->getMostUsed()->count();
+        $tagsCount = $this->hrefService->getMostUsedTags()->count();
 
         $this->assertEquals(
             1, $tagsCount, 'Should find one tag where has five relations with hrefs table'

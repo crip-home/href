@@ -4,6 +4,7 @@ use App\Contracts\ITagRepository;
 use App\Tag;
 use DB;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Collection;
 
 /**
  * Class TagRepository
@@ -38,5 +39,20 @@ class TagRepository extends Repository implements ITagRepository
         return $this->getQuery()->join(
             DB::raw($query), 'tags.id', '=', 'tc.tag_id'
         );
+    }
+
+    /**
+     * Get most used tags.
+     * @param int $count
+     * @param int $minUsage
+     * @return Collection
+     */
+    public function getMostUsed(int $count, int $minUsage): Collection
+    {
+        return $this->joinHrefUsageCount()
+            ->where('tag_count', '>=', $minUsage)
+            ->orderBy('tag_count', 'desc')
+            ->limit($count)
+            ->get();
     }
 }

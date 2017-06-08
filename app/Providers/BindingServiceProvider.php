@@ -2,8 +2,10 @@
 
 use App\Contracts\IHrefRepository;
 use App\Contracts\ITagRepository;
+use App\Contracts\IUserRepository;
 use App\Repositories\HrefRepository;
 use App\Repositories\TagRepository;
+use App\Repositories\UserRepository;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -29,5 +31,6 @@ class BindingServiceProvider extends ServiceProvider
     {
         $this->app->bind(ITagRepository::class, TagRepository::class);
         $this->app->bind(IHrefRepository::class, HrefRepository::class);
+        $this->app->bind(IUserRepository::class, UserRepository::class);
     }
 }
