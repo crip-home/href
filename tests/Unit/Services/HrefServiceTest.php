@@ -1,5 +1,6 @@
 <?php namespace Tests\Services;
 
+use App\Category;
 use App\Href;
 use App\Services\HrefService;
 use App\Tag;
@@ -85,6 +86,39 @@ class HrefServiceTest extends TestCase
 
         $this->assertEquals(
             1, $usersCount, 'Should find one user where has ten visible hrefs'
+        );
+    }
+
+    /**
+     * Test service can retrieve most used categories for hrefs.
+     * @return void
+     */
+    public function testCanGetOnlyMostUsedCategories()
+    {
+        factory(User::class)->create();
+
+        $cat1 = factory(Category::class)->create();
+        $cat2 = factory(Category::class)->create();
+
+        factory(Href::class, 9)->create([
+            'category_id' => $cat1->id,
+            'visible' => true
+        ]);
+        factory(Href::class)->create([
+            'category_id' => $cat1->id,
+            'visible' => false
+        ]);
+
+        factory(Href::class, 10)->create([
+            'category_id' => $cat2->id,
+            'visible' => true
+        ]);
+
+        $categoryCount = $this->hrefService
+            ->getMostUsedCategories(2, 10)->count();
+
+        $this->assertEquals(
+            1, $categoryCount, 'Should find one category where has ten visible hrefs'
         );
     }
 }

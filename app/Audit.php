@@ -38,7 +38,7 @@ trait Audit
         static::creating(function ($table) {
             if (App::runningInConsole()) {
                 $table->created_by = 1;
-                $table->created_by_name = 'cli';
+                $table->created_by_name = 'cli/tests';
                 return;
             }
 
@@ -50,7 +50,7 @@ trait Audit
         static::updating(function ($table) {
             if (App::runningInConsole()) {
                 $table->updated_by = 1;
-                $table->updated_by_name = 'cli';
+                $table->updated_by_name = 'cli/tests';
                 return;
             }
 

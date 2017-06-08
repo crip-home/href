@@ -1,8 +1,10 @@
 <?php namespace App\Services;
 
+use App\Contracts\ICategoryRepository;
 use App\Contracts\IHrefRepository;
 use App\Contracts\ITagRepository;
 use App\Contracts\IUserRepository;
+use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
 
 /**
@@ -27,19 +29,26 @@ class HrefService
     private $tagRepository;
 
     /**
+     * @var ICategoryRepository
+     */
+    private $categoryRepository;
+
+    /**
      * HrefService constructor.
      * @param IHrefRepository $hrefRepository
      * @param IUserRepository $userRepository
      * @param ITagRepository $tagRepository
+     * @param ICategoryRepository $categoryRepository
      */
     public function __construct(
         IHrefRepository $hrefRepository, IUserRepository $userRepository,
-        ITagRepository $tagRepository
+        ITagRepository $tagRepository, ICategoryRepository $categoryRepository
     )
     {
         $this->hrefRepository = $hrefRepository;
         $this->userRepository = $userRepository;
         $this->tagRepository = $tagRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
     /**
@@ -66,5 +75,45 @@ class HrefService
     ): Collection
     {
         return $this->tagRepository->getMostUsed($count, $minUsage);
+    }
+
+    /**
+     * Get most used categories.
+     * @param int $count
+     * @param int $minUsage
+     * @return Collection
+     */
+    public function getMostUsedCategories(
+        int $count = 25, int $minUsage = 10
+    ): Collection
+    {
+        return $this->categoryRepository->getMostUsed($count, $minUsage);
+    }
+
+    /**
+     * Paginate filtered hrefs.
+     * @param array $authors
+     * @param array $categories
+     * @param array $tags
+     * @return Paginator
+     */
+    public function paginateFiltered(
+        array $authors = [], array $categories = [], array $tags = []
+    ): Paginator
+    {
+
+    }
+
+    /**
+     * Group paginator results by days.
+     * @param Paginator $hrefs
+     * @param string $group_by
+     * @return array
+     */
+    public function groupByDays(
+        Paginator $hrefs, $group_by = 'date_added'
+    ): array
+    {
+
     }
 }
