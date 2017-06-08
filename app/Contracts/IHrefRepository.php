@@ -1,7 +1,5 @@
 <?php namespace App\Contracts;
 
-use Illuminate\Support\Collection;
-
 /**
  * Interface IHrefRepository
  * @package App\Contracts

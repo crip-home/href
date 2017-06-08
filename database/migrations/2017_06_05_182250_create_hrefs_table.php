@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 /**
  * Class CreateHrefsTable
  */
-class CreateHrefsTable extends Migration
+class CreateHrefsTable extends BaseMigration
 {
     /**
      * Run the migrations.
@@ -28,6 +28,8 @@ class CreateHrefsTable extends Migration
 
             $table->string('title');
             $table->string('url', 500)->nullable();
+
+            $this->audit($table);
 
             $table->timestamps();
         });

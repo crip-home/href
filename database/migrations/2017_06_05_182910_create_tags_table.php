@@ -7,7 +7,7 @@ use Illuminate\Database\Migrations\Migration;
 /**
  * Class CreateTagsTable
  */
-class CreateTagsTable extends Migration
+class CreateTagsTable extends BaseMigration
 {
     /**
      * Run the migrations.
@@ -19,6 +19,8 @@ class CreateTagsTable extends Migration
         Schema::create('tags', function (Blueprint $table) {
             $table->increments('id');
             $table->string('tag')->unique();
+
+            $this->audit($table);
             $table->timestamps();
         });
     }

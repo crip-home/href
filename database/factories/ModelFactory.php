@@ -39,7 +39,7 @@ $factory->define(App\Href::class, function (Faker\Generator $faker) use (&$i) {
         'date_added' => $faker->dateTimeInInterval('-1 year', '-1 day'),
         'index' => ++$i,
         'visible' => $faker->numberBetween(0, 1),
-        'title' => $faker->title,
+        'title' => $faker->sentence(),
         'url' => $faker->url,
     ];
 });

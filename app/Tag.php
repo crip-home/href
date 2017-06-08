@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Tag extends Model
 {
+    use Audit;
+
     /**
      * The table associated with the model.
      * @var string

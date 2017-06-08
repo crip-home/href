@@ -9,6 +9,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  */
 class Href extends Model
 {
+    use Audit;
+
     /**
      * The table associated with the model.
      * @var string
