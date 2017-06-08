@@ -52,7 +52,7 @@ class HrefService
         int $count = 25, int $minHrefs = 10
     ): Collection
     {
-        return $this->hrefRepository->getMostActiveAuthors($count, $minHrefs);
+        return $this->userRepository->getMostActiveAuthors($count, $minHrefs);
     }
 
     /**

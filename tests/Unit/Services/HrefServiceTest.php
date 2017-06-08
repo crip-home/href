@@ -57,4 +57,34 @@ class HrefServiceTest extends TestCase
             1, $tagsCount, 'Should find one tag where has five relations with hrefs table'
         );
     }
+
+    /**
+     * Test service can retrieve most active users created hrefs.
+     * @return void
+     */
+    public function testCanGetOnlyActiveUsers()
+    {
+        $user1 = factory(User::class)->create();
+        $user2 = factory(User::class)->create();
+
+        factory(Href::class, 9)->create([
+            'user_id' => $user1->id,
+            'visible' => true
+        ]);
+        factory(Href::class)->create([
+            'user_id' => $user1->id,
+            'visible' => false
+        ]);
+
+        factory(Href::class, 15)->create([
+            'user_id' => $user2->id,
+            'visible' => true
+        ]);
+
+        $usersCount = $this->hrefService->getMostActiveAuthors(2, 15)->count();
+
+        $this->assertEquals(
+            1, $usersCount, 'Should find one user where has ten visible hrefs'
+        );
+    }
 }

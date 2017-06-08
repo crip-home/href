@@ -16,7 +16,9 @@ class HrefController extends Controller
      */
     public function index(HrefService $hrefService)
     {
-        $tags = $hrefService->getMostUsedTags();
-        return view('home');
+        $tags = $hrefService->getMostUsedTags()->toArray();
+        $authors = $hrefService->getMostActiveAuthors()->toArray();
+
+        return view('home')->with(compact('tags', 'authors'));
     }
 }

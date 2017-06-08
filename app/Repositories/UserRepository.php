@@ -27,6 +27,17 @@ class UserRepository extends Repository implements IUserRepository
      */
     public function getMostActiveAuthors(int $count, int $minHrefs): Collection
     {
-
+        return $this->getQuery()
+            ->join('hrefs', 'users.id', '=', 'hrefs.user_id')
+            ->where('hrefs.visible', true)
+            ->groupBy('users.id', 'users.name')
+            ->having(\DB::raw('COUNT( hrefs.id )'), '>=', $minHrefs)
+            ->orderBy('hrefs_count', 'desc')
+            ->limit($count)
+            ->get([
+                'users.id',
+                'users.name',
+                \DB::raw('COUNT( hrefs.id ) AS hrefs_count')
+            ]);
     }
 }
