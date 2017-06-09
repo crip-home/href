@@ -95,13 +95,19 @@ class HrefService
      * @param array $authors
      * @param array $categories
      * @param array $tags
+     * @param array $params
      * @return Paginator
      */
     public function paginateFiltered(
-        array $authors = [], array $categories = [], array $tags = []
+        array $authors, array $categories, array $tags, array $params
     ): Paginator
     {
-
+        return $this->hrefRepository
+            ->withUsersTagsAndCategories()
+            ->filterByRelated($authors, $categories, $tags)
+            ->onlyVisibleAndOrderedByDate()
+            ->paginate()
+            ->appends($params);
     }
 
     /**

@@ -1,6 +1,7 @@
 <?php namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 /**
@@ -35,5 +36,14 @@ class Href extends Model
         return $this->belongsToMany(
             Tag::class, 'href_tags', 'href_id', 'tag_id'
         );
+    }
+
+    /**
+     * One to many inverse relation with categories table.
+     * @return BelongsTo
+     */
+    public function category()
+    {
+        return $this->belongsTo(Category::class, 'category_id', 'id');
     }
 }

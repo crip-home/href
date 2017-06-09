@@ -43,7 +43,8 @@ class HrefController extends Controller
         $filters = $request->only('t', 'a', 'c');
 
         $paging = $this->hrefService->paginateFiltered(
-            $filters['a'], $filters['c'], $filters['t']
+            $filters['a'] ?: [], $filters['c'] ?: [], $filters['t'] ?: [],
+            $request->except('page')
         );
 
         $days = $this->hrefService->groupByDays($paging);
