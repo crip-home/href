@@ -156,7 +156,7 @@ class HrefServiceTest extends TestCase
 
         collect($paginated->items())->each(function($item) {
             $this->assertEquals(
-                '2017-06-10', $item->date_added,
+                '2017-06-10', $item->date_added->toDateString(),
                 'All dates should be only latest in first page'
             );
         });
@@ -193,15 +193,15 @@ class HrefServiceTest extends TestCase
         );
 
         $this->assertEquals(
-            true, array_key_exists('2017-06-10')
+            true, array_key_exists('2017-06-10', $grouped)
         );
 
         $this->assertEquals(
-            true, array_key_exists('2017-06-09')
+            true, array_key_exists('2017-06-09', $grouped)
         );
 
         $this->assertEquals(
-            true, array_key_exists('2017-06-08')
+            true, array_key_exists('2017-06-08', $grouped)
         );
     }
 }

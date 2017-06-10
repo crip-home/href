@@ -28,6 +28,17 @@ class Href extends Model
     ];
 
     /**
+     * The attributes that should be casted to native types.
+     * @var array
+     */
+    protected $casts = [
+        'date_added' => 'datetime',
+        'parent_id' => 'integer',
+        'user_id' => 'integer',
+        'visible' => 'boolean',
+    ];
+
+    /**
      * Many to many relation with tags table.
      * @return BelongsToMany
      */

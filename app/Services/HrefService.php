@@ -120,6 +120,18 @@ class HrefService
         Paginator $hrefs, $group_by = 'date_added'
     ): array
     {
+        $groups = [];
 
+        foreach ($hrefs as $href) {
+            $group = $href->$group_by->toDateString();
+
+            if (!array_key_exists($group, $groups)) {
+                $groups[$group] = [];
+            }
+
+            $groups[$group][] = $href;
+        }
+        
+        return $groups;
     }
 }
