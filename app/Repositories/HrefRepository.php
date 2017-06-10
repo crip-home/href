@@ -2,6 +2,8 @@
 
 use App\Contracts\IHrefRepository;
 use App\Href;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Collection;
 
@@ -27,13 +29,13 @@ class HrefRepository extends PaginateRepository implements IHrefRepository
     public function withUsersTagsAndCategories(): IHrefRepository
     {
         $this->query = $this->getQuery()->with([
-            'creator' => function (Builder $query) {
+            'creator' => function (BelongsTo $query) {
                 $query->select(['id', 'name']);
             },
-            'tags' => function (Builder $query) {
+            'tags' => function (BelongsToMany $query) {
                 $query->select(['tags.id', 'tags.tag']);
             },
-            'category' => function (Builder $query) {
+            'category' => function (BelongsTo $query) {
                 $query->select(['id', 'title']);
             }
         ]);
@@ -64,7 +66,7 @@ class HrefRepository extends PaginateRepository implements IHrefRepository
 
         if (count($tags)) {
             $this->query = $this->getQuery()
-                ->whereIn('id', function (Builder $query) use ($tags) {
+                ->whereIn('id', function (BelongsToMany $query) use ($tags) {
                     $query->from('href_tags AS pivot')
                         ->join('tags AS t', 't.id', '=', 'pivot.tag_id')
                         ->whereIn('t.id', $tags)
@@ -82,6 +84,11 @@ class HrefRepository extends PaginateRepository implements IHrefRepository
      */
     public function onlyVisibleAndOrderedByDate(): IHrefRepository
     {
-        // TODO: Implement onlyVisibleAndOrderedByDate() method.
+        $this->query = $this->getQuery()
+            ->where('url', '<>', '')
+            ->where('visible', true)
+            ->orderBy('date_added', 'desc');
+
+        return $this;
     }
 }

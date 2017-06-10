@@ -121,4 +121,87 @@ class HrefServiceTest extends TestCase
             1, $categoryCount, 'Should find one category where has ten visible hrefs'
         );
     }
+
+    /**
+     * Test service can retrieve paginated hrefs ordered bay date.
+     * @return void
+     */
+    public function testCanGetHrefsPaginated()
+    {
+        factory(User::class)->create();
+
+        factory(Href::class, 15)->create([
+            'visible' => true,
+            'date_added' => '2017-06-10'
+        ]);
+        factory(Href::class, 10)->create([
+            'visible' => true,
+            'date_added' => '2017-06-09'
+        ]);
+        factory(Href::class, 10)->create([
+            'visible' => false,
+            'date_added' => '2017-06-08'
+        ]);
+
+        $paginated = $this->hrefService
+            ->paginateFiltered([], [], [], []);
+
+        $this->assertEquals(
+            25, $paginated->total(), 'Should find all visible hrefs'
+        );
+
+        $this->assertEquals(
+            15, count($paginated->items()), 'Should have 15 records in results'
+        );
+
+        collect($paginated->items())->each(function($item) {
+            $this->assertEquals(
+                '2017-06-10', $item->date_added,
+                'All dates should be only latest in first page'
+            );
+        });
+    }
+
+    /**
+     * Test service can group paginated hrefs ordered bay date.
+     * @return void
+     */
+    public function testCanGroupPaginatedResultsByDate()
+    {
+        factory(User::class)->create();
+
+        factory(Href::class, 5)->create([
+            'visible' => true,
+            'date_added' => '2017-06-10'
+        ]);
+        factory(Href::class, 5)->create([
+            'visible' => true,
+            'date_added' => '2017-06-09'
+        ]);
+        factory(Href::class, 5)->create([
+            'visible' => true,
+            'date_added' => '2017-06-08'
+        ]);
+
+        $paginated = $this->hrefService
+            ->paginateFiltered([], [], [], []);
+
+        $grouped = $this->hrefService->groupByDays($paginated);
+
+        $this->assertEquals(
+            3, count($grouped), 'Should create 3 groupf of hrefs'
+        );
+
+        $this->assertEquals(
+            true, array_key_exists('2017-06-10')
+        );
+
+        $this->assertEquals(
+            true, array_key_exists('2017-06-09')
+        );
+
+        $this->assertEquals(
+            true, array_key_exists('2017-06-08')
+        );
+    }
 }
