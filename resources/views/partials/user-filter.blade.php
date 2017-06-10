@@ -1,1 +1,0 @@
-<a href="%s" class="%s" title="%s">%s</a>

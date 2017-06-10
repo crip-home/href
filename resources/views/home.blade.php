@@ -21,11 +21,10 @@
                      title="{{$href->url}}"
                   >{{ $href->title ? $href->title : $href->url }}</a>
 
-                  @include('partials.user-filter', [
-                    'user' => $href->creator,
-                    'filters' => $filters
-                  ])
-                  {{--!! Form::filter($href->user, 'name', $filters, 'a', 'label label-success') !!--}}
+                  {!! Form::filter(
+                    $href->user->id, $href->user->name,
+                    $filters, 'a', 'label label-success')
+                  !!}
                   {{--!! Form::filter($href->category, 'title', $filters, 'c', 'label label-default') !!--}}
 
                   @foreach($href->tags as $tag)

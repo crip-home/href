@@ -41,10 +41,12 @@ class HrefController extends Controller
         // a - authors
         // c - categories
         $filters = $request->only('t', 'a', 'c');
+        $authors = $filters['a'] ?: [];
+        $categories = $filters['c'] ?: [];
+        $tags = $filters['t'] ?: [];
 
         $paging = $this->hrefService->paginateFiltered(
-            $filters['a'] ?: [], $filters['c'] ?: [], $filters['t'] ?: [],
-            $request->except('page')
+            $authors, $categories, $tags, $request->except('page')
         );
 
         $days = $this->hrefService->groupByDays($paging);

@@ -1,5 +1,6 @@
 <?php namespace App\Providers;
 
+use App\Forms\FormMacro;
 use Barryvdh\Debugbar\ServiceProvider as DebugbarServiceProvider;
 use Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider;
 use Illuminate\Support\ServiceProvider;
@@ -17,7 +18,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        $macros = new FormMacro();
+        $macros->register();
     }
 
     /**

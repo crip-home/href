@@ -1,3 +1,3 @@
 <?php
 
-Route::get('/', 'HrefController@index');
+Route::get('/', 'HrefController@index')->name('home');
