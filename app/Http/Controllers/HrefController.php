@@ -37,13 +37,10 @@ class HrefController extends Controller
      */
     public function index(Request $request)
     {
-        // t - tags
-        // a - authors
-        // c - categories
-        $filters = $request->only('t', 'a', 'c');
-        $authors = $filters['a'] ?: [];
-        $categories = $filters['c'] ?: [];
-        $tags = $filters['t'] ?: [];
+        $filters = $request->only('a', 'c', 't');
+        $authors = $request->a ?: [];
+        $categories = $request->c ?: [];
+        $tags = $request->t ?: [];
 
         $paging = $this->hrefService->paginateFiltered(
             $authors, $categories, $tags, $request->except('page')

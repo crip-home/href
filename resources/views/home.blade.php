@@ -25,10 +25,19 @@
                     $href->user->id, $href->user->name,
                     $filters, 'a', 'label label-success')
                   !!}
-                  {{--!! Form::filter($href->category, 'title', $filters, 'c', 'label label-default') !!--}}
+
+                  @if($href->category)
+                    {!! Form::filter(
+                      $href->category->id, $href->category->title,
+                      $filters, 'c', 'label label-default'
+                    ) !!}
+                  @endif
 
                   @foreach($href->tags as $tag)
-                    {{--!! Form::filter($tag, 'tag', $filters, 't') !!--}}
+                    {!! Form::filter(
+                      $tag->id, $tag->tag,
+                      $filters, 't'
+                    ) !!}
                   @endforeach
                 </p>
 
@@ -50,7 +59,10 @@
           <div class="panel-heading">Authors</div>
           <div class="panel-body">
             @foreach($authors as $author)
-              {{--!! Form::filter($author, 'name', $filters, 'a', 'label label-success') !!--}}
+              {!! Form::filter(
+                $author->id, $author->name,
+                $filters, 'a', 'label label-success'
+              ) !!}
             @endforeach
           </div>
         </div>
@@ -59,7 +71,10 @@
           <div class="panel-heading">Categories</div>
           <div class="panel-body">
             @foreach($categories as $category)
-              {{--!! Form::filter($category, 'title', $filters, 'c', 'label label-default') !!--}}
+              {!! Form::filter(
+                $category->id, $category->title,
+                $filters, 'c', 'label label-default'
+              ) !!}
             @endforeach
           </div>
         </div>
@@ -68,7 +83,9 @@
           <div class="panel-heading">Tags</div>
           <div class="panel-body">
             @foreach($tags as $tag)
-              {{--!! Form::filter($tag, 'tag', $filters, 't') !!--}}
+              {!! Form::filter(
+                $tag->id, $tag->tag, $filters, 't'
+              ) !!}
             @endforeach
           </div>
         </div>

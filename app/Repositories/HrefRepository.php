@@ -29,7 +29,7 @@ class HrefRepository extends PaginateRepository implements IHrefRepository
     public function withUsersTagsAndCategories(): IHrefRepository
     {
         $this->query = $this->getQuery()->with([
-            'creator' => function (BelongsTo $query) {
+            'user' => function (BelongsTo $query) {
                 $query->select(['id', 'name']);
             },
             'tags' => function (BelongsToMany $query) {

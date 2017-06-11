@@ -39,6 +39,16 @@ class Href extends Model
     ];
 
     /**
+     * Many to one relation with users table.
+     */
+    public function user() 
+    {
+        return $this->belongsTo(
+            User::class, 'user_id', 'id'
+        );
+    }
+
+    /**
      * Many to many relation with tags table.
      * @return BelongsToMany
      */

@@ -12,6 +12,8 @@ class HrefTableSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Href::class, 100)->create();
+        factory(App\Href::class, 100)->create([
+            'category_id' => rand(1, 20)
+        ]);
     }
 }
