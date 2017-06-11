@@ -5,7 +5,7 @@
 </template>
 
 <script>
-export default {
-  name: 'href-edit'
-}
+  export default {
+    name: 'href-edit'
+  }
 </script>

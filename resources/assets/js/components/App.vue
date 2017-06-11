@@ -7,7 +7,7 @@
 </template>
 
 <script>
-  import * as routes from '../../router/routes'
+  import * as routes from '../router/routes'
 
   export default {
     /**

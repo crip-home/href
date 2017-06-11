@@ -9,10 +9,10 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Filter
 {
-    public static function register() 
+    public static function register()
     {
         Form::macro('filter', function (
-            $id, $text, $filters = [], $filters_key, 
+            $id, $text, $filters = [], $filters_key,
             $class = 'label label-info', $active_class = 'label label-primary'
         ) {
             if (!$filters) {

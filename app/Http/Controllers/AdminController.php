@@ -7,7 +7,7 @@ use View;
  * Class AdminController
  * @package App\Http\Controllers
  */
-class AdminController extends \App\Http\Controllers\Controller
+class AdminController extends Controller
 {
     /**
      * Admin panel root.

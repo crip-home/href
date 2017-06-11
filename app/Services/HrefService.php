@@ -131,7 +131,7 @@ class HrefService
 
             $groups[$group][] = $href;
         }
-        
+
         return $groups;
     }
 }

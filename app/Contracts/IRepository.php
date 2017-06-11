@@ -4,6 +4,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
+/**
+ * Interface IRepository
+ * @package App\Contracts
+ */
 interface IRepository
 {
     /**
