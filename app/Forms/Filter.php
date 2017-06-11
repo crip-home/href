@@ -24,12 +24,13 @@ class Filter
             }
 
             if (in_array($id, $filters[$filters_key])) {
-                // this filter already is set and we add active class for it
+                // This filter already is set and we add active class for it.
+                // Additionally we remove it from filters to toggle this filter
                 $arr_key = array_search($id, $filters[$filters_key]);
                 unset($filters[$filters_key][$arr_key]);
                 $class = $active_class;
             } else {
-                // just append id to the 
+                // Just append id to the filters list.
                 $filters[$filters_key][] = $id;
             }
 

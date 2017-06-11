@@ -1,8 +1,14 @@
 <template>
-  <div>My App</div>
+  <div>
+    <router-link :to="edit">Edit</router-link>
+
+    <router-view></router-view>
+  </div>
 </template>
 
 <script>
+  import * as routes from '../../router/routes'
+
   export default {
     /**
      * The name of component.
@@ -17,6 +23,12 @@
      */
     created () {
       this.$emit('app-mounted')
+    },
+
+    data () {
+      return {
+        edit: routes.hrefEdit
+      }
     }
   }
 </script>

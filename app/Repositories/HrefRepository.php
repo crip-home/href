@@ -66,7 +66,7 @@ class HrefRepository extends PaginateRepository implements IHrefRepository
 
         if (count($tags)) {
             $this->query = $this->getQuery()
-                ->whereIn('id', function (BelongsToMany $query) use ($tags) {
+                ->whereIn('id', function (Builder $query) use ($tags) {
                     $query->from('href_tags AS pivot')
                         ->join('tags AS t', 't.id', '=', 'pivot.tag_id')
                         ->whereIn('t.id', $tags)
