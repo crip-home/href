@@ -34,7 +34,7 @@ class Filter
                 $filters[$filters_key][] = $id;
             }
 
-            $href = route('home', $filters);
+            $href = route('index', $filters);
 
             return sprintf(
                 '<a href="%s" class="%s" title="%s">%s</a>',

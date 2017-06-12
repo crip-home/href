@@ -7,3 +7,10 @@
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+// Custom styles
+@import "navbar";
+
+body {
+  background: url("/images/bg.png") repeat-x;
+}

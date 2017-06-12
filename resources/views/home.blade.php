@@ -5,7 +5,7 @@
     <div class="row">
 
       <div class="col-sm-8">
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
           <div class="panel-heading">People shared hrefs</div>
           <div class="panel-body bookmark-panel">
 
@@ -29,7 +29,7 @@
                   @if($href->category)
                     {!! Form::filter(
                       $href->category->id, $href->category->title,
-                      $filters, 'c', 'label label-default'
+                      $filters, 'c', 'label label-warning'
                     ) !!}
                   @endif
 
@@ -52,7 +52,7 @@
 
       <div class="col-sm-4">
 
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
           <div class="panel-heading">Authors</div>
           <div class="panel-body">
             @foreach($authors as $author)
@@ -64,19 +64,19 @@
           </div>
         </div>
 
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
           <div class="panel-heading">Categories</div>
           <div class="panel-body">
             @foreach($categories as $category)
               {!! Form::filter(
                 $category->id, $category->title,
-                $filters, 'c', 'label label-default'
+                $filters, 'c', 'label label-warning'
               ) !!}
             @endforeach
           </div>
         </div>
 
-        <div class="panel panel-default">
+        <div class="panel panel-primary">
           <div class="panel-heading">Tags</div>
           <div class="panel-body">
             @foreach($tags as $tag)

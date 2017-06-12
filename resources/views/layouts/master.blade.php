@@ -16,11 +16,11 @@
 </head>
 <body>
 <div>
-  <nav class="navbar navbar-default navbar-static-top">
+  <nav class="navbar navbar-inverse navbar-static-top">
     <div class="container">
       <div class="navbar-header">
         <a class="navbar-brand" href="{{ url('/') }}">
-          {{ config('app.name', 'Laravel') }}
+          <span><img src="/images/crip_logo.png" alt="Crip logo"/></span>
         </a>
       </div>
 
