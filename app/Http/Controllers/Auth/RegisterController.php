@@ -1,12 +1,15 @@
-<?php
-
-namespace App\Http\Controllers\Auth;
+<?php namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
 
+/**
+ * Class RegisterController
+ * @package App\Http\Controllers\Auth
+ */
 class RegisterController extends Controller
 {
     /*
@@ -24,15 +27,12 @@ class RegisterController extends Controller
 
     /**
      * Where to redirect users after registration.
-     *
      * @var string
      */
     protected $redirectTo = '/home';
 
     /**
      * Create a new controller instance.
-     *
-     * @return void
      */
     public function __construct()
     {
@@ -56,9 +56,8 @@ class RegisterController extends Controller
 
     /**
      * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return User
+     * @param  array $data
+     * @return Model
      */
     protected function create(array $data)
     {

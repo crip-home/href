@@ -12,11 +12,12 @@
 
       <ul class="dropdown-menu" role="menu">
         <li>
-          <a href="{{ route('admin-home') }}">Dashboard</a>
+          <a href="{{ route('admin') }}">Dashboard</a>
         </li>
         <li>
           <a href="{{ route('logout') }}"
-             onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+             onclick="event.preventDefault();
+                      document.getElementById('logout-form').submit();"
           >
             Logout
           </a>

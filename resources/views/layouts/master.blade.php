@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,7 +11,7 @@
   <title>{{ config('app.name', 'Laravel') }}</title>
 
   <!-- Styles -->
-  <link href="/assets/styles.css" rel="stylesheet">
+  <link href="{{ asset('assets/styles.css') }}" rel="stylesheet">
 
   <style>
     #logout-form {
@@ -51,7 +51,7 @@
 </div>
 
 <!-- Scripts -->
-<script src="/assets/vendor.js"></script>
-<script src="/assets/app.js"></script>
+<script src="{{ asset('assets/vendor.js') }}"></script>
+<script src="{{ asset('assets/app.js') }}"></script>
 </body>
 </html>
