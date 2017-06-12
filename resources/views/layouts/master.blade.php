@@ -13,35 +13,18 @@
   <!-- Styles -->
   <link href="{{ asset('assets/styles.css') }}" rel="stylesheet">
 
-  <style>
-    #logout-form {
-      display: none;
-    }
-  </style>
-
 </head>
 <body>
 <div>
   <nav class="navbar navbar-default navbar-static-top">
     <div class="container">
       <div class="navbar-header">
-
-        <!-- Collapsed Hamburger -->
-        <button type="button" class="navbar-toggle collapsed"
-                data-toggle="collapse" data-target="#app-navbar-collapse">
-          <span class="sr-only">Toggle Navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-
-        <!-- Branding Image -->
         <a class="navbar-brand" href="{{ url('/') }}">
           {{ config('app.name', 'Laravel') }}
         </a>
       </div>
 
-      <div class="collapse navbar-collapse" id="app-navbar-collapse">
+      <div class="navbar-collapse" id="app-navbar-collapse">
         @include('layouts.nav')
       </div>
     </div>
@@ -50,6 +33,9 @@
   @yield('content')
 
 </div>
+
+<!-- Scripts -->
+<script src="{{ asset('assets/vendor.js') }}"></script>
 
 @stack('scripts')
 

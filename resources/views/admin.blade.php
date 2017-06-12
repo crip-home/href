@@ -9,6 +9,6 @@
 @endsection
 
 @push('scripts')
-  <script src="{{ asset('assets/vendor.js') }}"></script>
-  <script src="{{ asset('assets/app.js') }}"></script>
+<script src="{{ asset('assets/app.js') }}"></script>
+<script src="{{ asset('assets/navbar.js') }}"></script>
 @endpush

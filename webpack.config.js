@@ -7,6 +7,7 @@ module.exports = {
   context: path.join(__dirname, 'resources/assets'),
   entry: {
     app: ['babel-polyfill', './js/app.js'],
+    navbar: ['./js/navbar.js'],
     vendor: ['babel-polyfill', 'vue', 'axios', 'vue-router']
   },
   output: {
