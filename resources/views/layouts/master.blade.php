@@ -48,10 +48,10 @@
   </nav>
 
   @yield('content')
+
 </div>
 
-<!-- Scripts -->
-<script src="{{ asset('assets/vendor.js') }}"></script>
-<script src="{{ asset('assets/app.js') }}"></script>
+@stack('scripts')
+
 </body>
 </html>

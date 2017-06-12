@@ -1,9 +1,14 @@
 @extends('layouts.master')
 
 @section('content')
-<div class="container">
+  <div class="container">
     <div id="app">
-        Initializing application...
+      Initializing application...
     </div>
-</div>
+  </div>
 @endsection
+
+@push('scripts')
+  <script src="{{ asset('assets/vendor.js') }}"></script>
+  <script src="{{ asset('assets/app.js') }}"></script>
+@endpush
