@@ -29,11 +29,12 @@ class HrefController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param int $id
      * @return JsonResponse
      */
-    public function index()
+    public function index(int $id = 0)
     {
-        $data = $this->hrefService->filterOwned(0);
+        $data = $this->hrefService->filterOwned($id);
 
         return new JsonResponse($data);
     }
@@ -67,7 +68,13 @@ class HrefController extends Controller
      */
     public function show($id)
     {
-        //
+        $href = $this->hrefService->find($id);
+
+        if ($href->url) {
+            return new JsonResponse($href);
+        }
+
+        return $this->index($id);
     }
 
     /**

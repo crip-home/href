@@ -19,7 +19,8 @@ class HrefApiTest extends TestCase
             'parent_id' => 0,
             'visible' => true
         ]);
-        $child = factory(Href::class)->create([
+
+        factory(Href::class, 2)->create([
             'parent_id' => $href->id,
             'user_id' => $user->id
         ]);
@@ -39,6 +40,39 @@ class HrefApiTest extends TestCase
             "user" => ["id" => 1],
             "user_id" => 1,
             "visible" => true
+        ]]);
+    }
+
+    public function testCanGetCollectionOfChildHrefs()
+    {
+        $user = factory(User::class)->create();
+        $href = factory(Href::class)->create([
+            'url' => '',
+            'user_id' => $user->id,
+            'parent_id' => 0,
+        ]);
+
+        factory(Href::class, 2)->create([
+            'url' => 'testUrl',
+            'parent_id' => $href->id,
+            'user_id' => $user->id
+        ]);
+
+        $response = $this
+            ->actingAs($user)
+            ->get('/api/href/' . $href->id);
+
+        $response->assertStatus(200);
+        $response->assertJson([[
+            "created_by" => 1,
+            "parent_id" => $href->id,
+            "url" => "testUrl",
+            "user" => ["id" => 1]
+        ], [
+            "created_by" => 1,
+            "parent_id" => $href->id,
+            "url" => "testUrl",
+            "user" => ["id" => 1]
         ]]);
     }
 }

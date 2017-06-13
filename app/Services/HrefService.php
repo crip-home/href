@@ -149,4 +149,16 @@ class HrefService
             ->orderBy('date_added')
             ->get();
     }
+
+    /**
+     * Find single href instance.
+     * @param $id
+     * @return \Illuminate\Database\Eloquent\Model
+     */
+    public function find($id)
+    {
+        return $this->hrefRepository
+            ->withUsersTagsAndCategories()
+            ->find($id);
+    }
 }
