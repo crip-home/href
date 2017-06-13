@@ -29,4 +29,20 @@ interface IHrefRepository extends IPaginateRepository
      * @return IHrefRepository
      */
     public function onlyVisibleAndOrderedByDate(): IHrefRepository;
+
+    /**
+     * Filter query results to select records where user id is presented id
+     * parameter.
+     * @param int $id Te id of the user.
+     * @return IHrefRepository
+     */
+    public function filterOwner(int $id): IHrefRepository;
+
+    /**
+     * Filter query results to select records where parent id is presented id
+     * parameter.
+     * @param int $parentId
+     * @return IHrefRepository
+     */
+    public function filterWhereParent(int $parentId): IHrefRepository;
 }

@@ -134,4 +134,19 @@ class HrefService
 
         return $groups;
     }
+
+    /**
+     * Get owned records of one parent element.
+     * @param int $parentId
+     * @return Collection
+     */
+    public function filterOwned(int $parentId = 0): Collection
+    {
+        return $this->hrefRepository
+            ->filterOwner(\Auth::user()->id)
+            ->filterWhereParent($parentId)
+            ->withUsersTagsAndCategories()
+            ->orderBy('date_added')
+            ->get();
+    }
 }

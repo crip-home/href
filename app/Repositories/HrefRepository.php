@@ -91,4 +91,32 @@ class HrefRepository extends PaginateRepository implements IHrefRepository
 
         return $this;
     }
+
+    /**
+     * Filter query results to select records where user id is presented id
+     * parameter.
+     * @param int $id Te id of the user.
+     * @return IHrefRepository
+     */
+    public function filterOwner(int $id): IHrefRepository
+    {
+        $this->query = $this->getQuery()
+            ->where('user_id', $id);
+
+        return $this;
+    }
+
+    /**
+     * Filter query results to select records where parent id is presented id
+     * parameter.
+     * @param int $parentId
+     * @return IHrefRepository
+     */
+    public function filterWhereParent(int $parentId): IHrefRepository
+    {
+        $this->query = $this->getQuery()
+            ->where('parent_id', $parentId);
+
+        return $this;
+    }
 }
