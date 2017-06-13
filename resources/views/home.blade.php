@@ -15,28 +15,31 @@
 
               @foreach($hrefs as $href)
 
-                <p>
+                <h4>
                   <a href="{{$href->url}}"
                      target="_blank"
                      title="{{$href->url}}"
-                  >{{ $href->title ? $href->title : $href->url }}</a>
+                  >{{ $href->title ? $href->title : $href->url }}</a><br>
 
-                  {!! Form::filter(
-                    $href->user->id, $href->user->name,
-                    $filters, 'a', 'label label-success')
-                  !!}
-
-                  @if($href->category)
+                  <small class="filter">
                     {!! Form::filter(
-                      $href->category->id, $href->category->title,
-                      $filters, 'c', 'label label-warning'
+                      $href->user->id, $href->user->name, $filters, 'a'
                     ) !!}
-                  @endif
 
-                  @foreach($href->tags as $tag)
-                    {!! Form::filter($tag->id, $tag->tag,$filters, 't') !!}
-                  @endforeach
-                </p>
+                    @if($href->category)
+                      &nbsp;
+                      {!! Form::filter(
+                        $href->category->id, $href->category->title, $filters,
+                        'c'
+                      ) !!}
+                    @endif
+
+                    @foreach($href->tags as $tag)
+                      &nbsp;
+                      {!! Form::filter($tag->id, $tag->tag, $filters, 't') !!}
+                    @endforeach
+                  </small>
+                </h4>
 
               @endforeach
 
@@ -56,10 +59,8 @@
           <div class="panel-heading">Authors</div>
           <div class="panel-body">
             @foreach($authors as $author)
-              {!! Form::filter(
-                $author->id, $author->name,
-                $filters, 'a', 'label label-success'
-              ) !!}
+              {!! Form::filter($author->id, $author->name,$filters, 'a') !!}
+              &nbsp;
             @endforeach
           </div>
         </div>
@@ -69,9 +70,9 @@
           <div class="panel-body">
             @foreach($categories as $category)
               {!! Form::filter(
-                $category->id, $category->title,
-                $filters, 'c', 'label label-warning'
+                $category->id, $category->title, $filters, 'c'
               ) !!}
+              &nbsp;
             @endforeach
           </div>
         </div>
@@ -80,9 +81,8 @@
           <div class="panel-heading">Tags</div>
           <div class="panel-body">
             @foreach($tags as $tag)
-              {!! Form::filter(
-                $tag->id, $tag->tag, $filters, 't'
-              ) !!}
+              {!! Form::filter($tag->id, $tag->tag, $filters, 't') !!}
+              &nbsp;
             @endforeach
           </div>
         </div>
