@@ -1,7 +1,5 @@
 <template>
   <div>
-    <router-link :to="edit">Edit</router-link>
-
     <router-view></router-view>
   </div>
 </template>
@@ -22,7 +20,7 @@
      * component.
      */
     created () {
-      this.$emit('app-mounted')
+      this.$emit('app:created')
     },
 
     data () {
