@@ -5,15 +5,22 @@
 
       <table class="table">
         <thead>
-          <tr>
-            <th>#</th>
-            <th>Title</th>
-            <th>Url</th>
-            <th>Category</th>
-          </tr>
+        <tr>
+          <th>#</th>
+          <th>Title</th>
+          <th>Url</th>
+          <th>Category</th>
+        </tr>
         </thead>
         <tbody>
-
+        <router-link v-for="item in items" :key="item.id" :to="item.route" tag="tr">
+          <template class="pointee">
+            <td>{{ item.id }}</td>
+            <td class="table-wide">{{ item.title }}</td>
+            <td class="table-wide">{{ item.url }}</td>
+            <td>{{ item.category ? item.category.title : '' }}</td>
+          </template>
+        </router-link>
         </tbody>
       </table>
 
@@ -21,6 +28,9 @@
 
       </div>
     </div><!-- .panel -->
+
+    <router-view></router-view>
+
   </div>
 </template>
 
@@ -30,10 +40,35 @@
   export default {
     name: 'href-list',
 
-    mounted () {
-      this.$emit('href-list:mounted')
-      let records = api.get(this.$route.params.page || 0)
-      console.log(records)
+    async created () {
+      this.$emit('href-list:created')
+      this.fetchItems(this.$route.params.page || 0)
+    },
+
+    data () {
+      return {
+        items: []
+      }
+    },
+
+    methods: {
+      /**
+       * Set records from api to component data.
+       * @param [parentId]
+       * @return {Promise.<void>}
+       */
+      async fetchItems (parentId = 0) {
+        this.items = await api.get(parentId)
+      }
     }
   }
 </script>
+
+<style>
+  .table-wide {
+    max-width: 260px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+</style>

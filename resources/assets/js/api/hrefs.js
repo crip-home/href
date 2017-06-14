@@ -1,18 +1,22 @@
 import axios from 'axios'
 import config from '../config'
+import Href from '../models/Href'
 
 export default {
-  get (parentId = 0) {
-    return new Promise((resolve, reject) => {
-      axios.get(`${config.apiUrl}/href`)
-        .then(response => {
-          // TODO: map entries to models
-          resolve(response)
-        })
-        .catch(err => {
-          // TODO:add global error handler for the server errors
-          console.error(err)
-        })
-    })
+  /**
+   * Fetch hrefs from server api.
+   * @param [parentId]
+   * @return {Promise.<Array.<Href>>}
+   */
+  async get (parentId = 0) {
+    try {
+      let response = await axios.get(`${config.apiUrl}/href`)
+      return response.data.reduce((prew, curr) => {
+        return [...prew, new Href(curr)]
+      }, [])
+    } catch (ex) {
+      // TODO:add global error handler for the server errors
+      console.error(ex)
+    }
   }
 }
