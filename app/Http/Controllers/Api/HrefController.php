@@ -22,7 +22,7 @@ class HrefController extends Controller
      */
     public function __construct(HrefService $hrefService)
     {
-        $this->middleware('auth');
+        $this->middleware('jwt.auth');
         $this->hrefService = $hrefService;
     }
 

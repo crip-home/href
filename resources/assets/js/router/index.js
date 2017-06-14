@@ -13,7 +13,9 @@ export default new Router({
   scrollBehavior: () => ({y: 0}),
   routes: [
     {
-      path: '/', redirect: '/hrefs'
+      name: 'index',
+      path: '/',
+      component: HrefList
     },
     {
       ...routes.hrefs,

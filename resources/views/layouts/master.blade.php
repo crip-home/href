@@ -9,7 +9,7 @@
   <meta name="csrf-token" content="{{ csrf_token() }}">
 
   <!-- Application configurations -->
-  <meta name="api-url" content="{{ config('app.url') }}/api">
+  @stack('meta')
 
   <title>{{ config('app.name', 'Laravel') }}</title>
 
