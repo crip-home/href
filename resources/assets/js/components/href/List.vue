@@ -40,7 +40,7 @@
   export default {
     name: 'href-list',
 
-    async created () {
+    created () {
       this.$emit('href-list:created')
       this.fetchItems(this.$route.params.page || 0)
     },
@@ -53,7 +53,7 @@
 
     methods: {
       /**
-       * Set records from api to component data.
+       * Set href records from api to component data object.
        * @param [parentId]
        * @return {Promise.<void>}
        */

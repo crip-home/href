@@ -1,6 +1,7 @@
 import axios from 'axios'
 import config from '../config'
 import Href from '../models/Href'
+import {handleError} from '../error'
 
 export default {
   /**
@@ -10,13 +11,15 @@ export default {
    */
   async get (parentId = 0) {
     try {
-      let response = await axios.get(`${config.apiUrl}/href`)
-      return response.data.reduce((prew, curr) => {
-        return [...prew, new Href(curr)]
-      }, [])
+      let url = `${config.apiUrl}/href`
+      if (parentId > 0) {
+        url += `/${parentId}`
+      }
+
+      let response = await axios.get(url)
+      return response.data.map(href => new Href(href))
     } catch (ex) {
-      // TODO:add global error handler for the server errors
-      console.error(ex)
+      handleError(ex)
     }
   }
 }

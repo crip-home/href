@@ -14,10 +14,11 @@
     name: 'app',
 
     /**
-     * In the created hook, you will be able to access reactive data and events
-     * are active. Templates and Virtual DOM have not yet been mounted or
-     * rendered. The most frequently used patterns are fetching data for your
-     * component.
+     * Called synchronously after the instance is created. At this stage, the
+     * instance has finished processing the options which means the following
+     * have been set up: data observation, computed properties, methods,
+     * watch/event callbacks. However, the mounting phase has not been started,
+     * and the $el property will not be available yet.
      */
     created () {
       this.$emit('app:created')

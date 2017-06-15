@@ -10,6 +10,14 @@ use View;
 class AdminController extends Controller
 {
     /**
+     * AdminController constructor.
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
+    /**
      * Admin panel root.
      * @return Factory|View
      */
