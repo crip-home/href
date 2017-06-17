@@ -1,9 +1,12 @@
 import Vue from 'vue'
+import Modal from 'crip-vue-bootstrap-modal'
 import App from './components/App.vue'
 import axios from 'axios'
 import router from './router'
 import config from './config'
 import './../sass/app.scss'
+
+Vue.use(Modal)
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
 axios.defaults.headers.common['X-CSRF-TOKEN'] = config.token

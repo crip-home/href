@@ -12,11 +12,7 @@ Vue.use(Router)
 export default new Router({
   scrollBehavior: () => ({y: 0}),
   routes: [
-    {
-      name: 'index',
-      path: '/',
-      component: HrefList
-    },
+    {path: '*', redirect: '/hrefs/0'},
     {
       ...routes.hrefs,
       path: '/hrefs/:page(\\d+)',

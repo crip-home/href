@@ -1,9 +1,16 @@
 <template>
   <div class="href-list row">
     <div class="panel panel-primary">
-      <div class="panel-heading">People shared hrefs</div>
+      <div class="panel-heading">
+        <span class="panel-title">People shared hrefs</span>
+        <span class="panel-action pull-right">
+          <router-link :to="createNewRoute" class="btn btn-sm btn-primary">
+            Add
+          </router-link>
+        </span>
+      </div>
 
-      <table class="table">
+      <table class="table table-hover">
         <thead>
         <tr>
           <th>#</th>
@@ -13,8 +20,14 @@
         </tr>
         </thead>
         <tbody>
-        <router-link v-for="item in items" :key="item.id" :to="item.route" tag="tr">
-          <template class="pointee">
+        <router-link
+            v-for="item in items"
+            :key="item.id"
+            :to="item.route"
+            tag="tr"
+            class="pointee"
+        >
+          <template>
             <td>{{ item.id }}</td>
             <td class="table-wide">{{ item.title }}</td>
             <td class="table-wide">{{ item.url }}</td>
@@ -36,13 +49,32 @@
 
 <script>
   import api from '../../api/hrefs'
+  import * as routes from '../../router/routes'
 
   export default {
     name: 'href-list',
 
     created () {
       this.$emit('href-list:created')
-      this.fetchItems(this.$route.params.page || 0)
+      this.fetchItems(this.currentPage)
+    },
+
+    computed: {
+      /**
+       * Gets current page identifier.
+       * @return {number}
+       */
+      currentPage () {
+        return this.$route.params.page || 0
+      },
+
+      /**
+       * Gets current page create route object.
+       * @return {{page: computed.currentPage}}
+       */
+      createNewRoute () {
+        return {...routes.hrefCreate, page: this.currentPage}
+      }
     },
 
     data () {
@@ -70,5 +102,9 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  .pointee {
+    cursor: pointer;
   }
 </style>
