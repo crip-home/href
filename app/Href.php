@@ -24,7 +24,7 @@ class Href extends Model
      */
     protected $fillable = [
         'parent_id', 'user_id', 'date_added', 'index', 'visible', 'title',
-        'url',
+        'url', 'category_id',
     ];
 
     /**
