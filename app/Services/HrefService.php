@@ -4,6 +4,9 @@ use App\Contracts\ICategoryRepository;
 use App\Contracts\IHrefRepository;
 use App\Contracts\ITagRepository;
 use App\Contracts\IUserRepository;
+use App\Href;
+use Auth;
+use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Support\Collection;
 
@@ -143,7 +146,7 @@ class HrefService
     public function filterOwned(int $parentId = 0): Collection
     {
         return $this->hrefRepository
-            ->filterOwner(\Auth::user()->id)
+            ->filterOwner(Auth::user()->id)
             ->filterWhereParent($parentId)
             ->withUsersTagsAndCategories()
             ->orderBy('date_added')
@@ -160,5 +163,28 @@ class HrefService
         return $this->hrefRepository
             ->withUsersTagsAndCategories()
             ->find($id);
+    }
+
+    /**
+     * Save new instance of href to database.
+     * @param array $data
+     * @return Href
+     */
+    public function create(array $data): Href
+    {
+        if (!array_key_exists('parent_id', $data) || !$data['parent_id']) {
+            $data['parent_id'] = 0;
+        }
+
+        $data['user_id'] = Auth::user()->id;
+        $data['date_added'] = Carbon::now();
+        $data['index'] = 1;
+
+        // TODO: associate tags from parents
+
+        /** @var Href $record */
+        $record = $this->hrefRepository->create($data);
+
+        return $record;
     }
 }

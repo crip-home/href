@@ -1,5 +1,6 @@
 <?php namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\ApiStoreHref;
 use App\Services\HrefService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -32,7 +33,7 @@ class HrefController extends Controller
      * @param int $id
      * @return JsonResponse
      */
-    public function index(int $id = 0)
+    public function index(int $id = 0): JsonResponse
     {
         $data = $this->hrefService->filterOwned($id);
 
@@ -40,33 +41,26 @@ class HrefController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return JsonResponse
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
+     * @param ApiStoreHref $request
      * @return JsonResponse
      */
-    public function store(Request $request)
+    public function store(ApiStoreHref $request): JsonResponse
     {
-        //
+        $data = $request->only([
+            'title', 'url', 'visible', 'category_id', 'parent_id'
+        ]);
+        $record = $this->hrefService->create($data);
+
+        return new JsonResponse($record);
     }
 
     /**
      * Display the specified resource.
-     *
      * @param  int $id
      * @return JsonResponse
      */
-    public function show($id)
+    public function show(int $id): JsonResponse
     {
         $href = $this->hrefService->find($id);
 
@@ -79,12 +73,11 @@ class HrefController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
      * @param  \Illuminate\Http\Request $request
      * @param  int $id
      * @return JsonResponse
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, int $id): JsonResponse
     {
         //
     }
@@ -95,7 +88,7 @@ class HrefController extends Controller
      * @param  int $id
      * @return JsonResponse
      */
-    public function destroy($id)
+    public function destroy(int $id): JsonResponse
     {
         //
     }

@@ -1,5 +1,5 @@
 <template>
-  <form class="form-horizontal href-edit" @submit="save">
+  <form class="form-horizontal href-edit" @submit.prevent="save">
     <crip-modal @hidden="modalHidden" :close="close" size="lg">
       <span slot="title">{{ title }}</span>
 
@@ -113,12 +113,16 @@
        * Create or update record using server API
        */
       async save () {
-        let record = new Href({...this.form, id: this.$route.params.id})
         try {
-          await hrefsApi.save(record)
-          this.modalHidden()
-        } catch (errors) {
-          this.errors = errors
+          let record = new Href(this.form)
+          let parent = this.$route.params.page
+          let id = this.$route.params.id
+
+          let saved = await hrefsApi.save(record, parent, id)
+          this.$emit('saved', saved)
+          this.closeModal()
+        } catch (validationError) {
+          this.errors = validationError.errors
         }
       }
     }

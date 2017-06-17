@@ -21,8 +21,10 @@ export default {
     try {
       let url = parentId > 0 ? `${this.url}/${parentId}` : this.url
       let response = await axios.get(url)
+      let records = response.data.map(href => new Href(href))
+      config.log(`api.hrefs.get()`, {parentId}, records)
 
-      return response.data.map(href => new Href(href))
+      return records
     } catch (ex) {
       handleError(ex)
     }
@@ -31,18 +33,32 @@ export default {
   /**
    * Save gref record on server api.
    * @param {Href} record
+   * @param {Number} parentId
+   * @param {Number} id
    * @return {Promise.<Href>}
    */
-  async save (record) {
+  async save (record, parentId = 0, id = 0) {
     try {
-      let url = record.id > 0 ? `${this.url}/${record.id}` : this.url
-      let method = record.id > 0 ? 'put' : 'post'
-      let response = await axios[method](url, record)
+      record.category_id = record.category ? record.category.id : null
+      if (parentId > 0) {
+        record.parent_id = parentId
+      }
 
-      return new Href(response.data)
+      let url = id > 0 ? `${this.url}/${id}` : this.url
+      let method = id > 0 ? 'put' : 'post'
+      let response = await axios[method](url, record)
+      let output = new Href(response.data)
+
+      config.log('api.hrefs.save()', {record, parentId, id}, output)
+
+      return output
     } catch (ex) {
-      if (ex.status === 422) {
-        throw new ValidationError(ex.data)
+      if (ex.response.status === 422) {
+        config.log(
+          `api.hrefs.save()`, {record, parentId, id}, 'validation failed',
+          ex.response.data
+        )
+        throw new ValidationError(ex.response.data)
       }
 
       handleError(ex)

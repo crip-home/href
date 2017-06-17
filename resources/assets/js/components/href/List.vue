@@ -42,7 +42,7 @@
       </div>
     </div><!-- .panel -->
 
-    <router-view></router-view>
+    <router-view @saved="listRecordSaved"></router-view>
 
   </div>
 </template>
@@ -91,6 +91,15 @@
        */
       async fetchItems (parentId = 0) {
         this.items = await api.get(parentId)
+      },
+
+      listRecordSaved (record) {
+        let exists = this.items.find(item => item.id === record.id)
+        if (exists) {
+          return Object.assign(exists, record)
+        }
+
+        this.items.push(record)
       }
     }
   }
