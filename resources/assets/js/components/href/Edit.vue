@@ -42,7 +42,8 @@
       </div>
 
       <div class="modal-footer">
-        <button class="btn btn-danger" @click="closeModal" title="Dismiss">
+        <button class="btn btn-danger" @click.prevent="closeModal"
+                title="Dismiss">
           <span class="glyphicon glyphicon-remove"></span>
         </button>
 
@@ -56,8 +57,6 @@
 
 <script>
   import * as routes from '../../router/routes'
-  import categoriesApi from '../../api/categories'
-  import hrefsApi from '../../api/hrefs'
   import FormGroup from '../forms/FormGroup.vue'
   import Href from '../../models/Href'
 
@@ -65,7 +64,17 @@
     name: 'href-edit',
 
     async created () {
-      this.categories = await categoriesApi.all()
+      if (this.isEdit) {
+        this.form = await this.$api.href.find(this.id)
+      }
+
+      this.categories = await this.$api.category.all()
+
+      if (this.form.category_id) {
+        this.form.category = this.categories.find(
+          category => category.id === this.form.category_id
+        )
+      }
     },
 
     components: {FormGroup},
@@ -76,11 +85,35 @@
        * @return {String}
        */
       title () {
-        if (this.$route.name === routes.hrefCreate.name) {
-          return 'Create new record'
+        if (this.isEdit) {
+          return 'Update changes'
         }
 
-        return 'Update changes'
+        return 'Create new record'
+      },
+
+      /**
+       * Determines is the modal open for edit record.
+       * @return {boolean}
+       */
+      isEdit () {
+        return this.$route.name === routes.hrefEdit.name
+      },
+
+      /**
+       * Gets parent identifier.
+       * @return {number}
+       */
+      parentId () {
+        return parseInt(this.$route.params.page || 0)
+      },
+
+      /**
+       * Gets identifier if modal is open for edit.
+       * @return {number}
+       */
+      id () {
+        return parseInt(this.$route.params.href || 0)
       }
     },
 
@@ -106,19 +139,22 @@
 
       modalHidden () {
         // Go to parent route when modal is hidden
-        this.$router.push({...routes.hrefs, page: this.$route.params.page || 0})
+        this.$router.push({...routes.hrefs, page: this.parentId})
       },
 
       /**
        * Create or update record using server API
+       * @return {Promise.<void>}
        */
       async save () {
         try {
-          let record = new Href(this.form)
-          let parent = this.$route.params.page
-          let id = this.$route.params.id
+          let record = new Href({
+            ...this.form,
+            id: this.id,
+            parent_id: this.parentId
+          })
 
-          let saved = await hrefsApi.save(record, parent, id)
+          let saved = await this.$api.href.save(record)
           this.$emit('saved', saved)
           this.closeModal()
         } catch (validationError) {

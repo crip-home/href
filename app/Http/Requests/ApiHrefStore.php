@@ -3,10 +3,10 @@
 use Illuminate\Foundation\Http\FormRequest;
 
 /**
- * Class ApiStoreHref
+ * Class ApiHrefStore
  * @package App\Http\Requests
  */
-class ApiStoreHref extends FormRequest
+class ApiHrefStore extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,12 +24,17 @@ class ApiStoreHref extends FormRequest
      */
     public function rules()
     {
-        return [
+        $rules = [
             'title' => 'required|between:3,255',
             'url' => 'nullable|url|max:500',
             'visible' => 'required|boolean',
             'category_id' => 'nullable|exists:categories,id',
-            'parent_id' => 'sometimes|exists:hrefs,id'
         ];
+
+        if ($this->get('parent_id') > 0) {
+            $rules['parent_id'] = 'exists:hrefs,id';
+        }
+
+        return $rules;
     }
 }

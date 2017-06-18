@@ -17,6 +17,7 @@
           <th>Title</th>
           <th>Url</th>
           <th>Category</th>
+          <th></th>
         </tr>
         </thead>
         <tbody>
@@ -29,9 +30,18 @@
         >
           <template>
             <td>{{ item.id }}</td>
-            <td class="table-wide">{{ item.title }}</td>
+            <td class="table-wide">
+              {{ item.title }}&nbsp;
+            </td>
             <td class="table-wide">{{ item.url }}</td>
             <td>{{ item.category ? item.category.title : '' }}</td>
+            <td>
+              <router-link
+                  :to="item.editRoute" class="label label-info actions"
+              >
+                Edit
+              </router-link>
+            </td>
           </template>
         </router-link>
         </tbody>
@@ -48,7 +58,6 @@
 </template>
 
 <script>
-  import api from '../../api/hrefs'
   import * as routes from '../../router/routes'
 
   export default {
@@ -62,10 +71,10 @@
     computed: {
       /**
        * Gets current page identifier.
-       * @return {number}
+       * @return {Number}
        */
       currentPage () {
-        return this.$route.params.page || 0
+        return parseInt(this.$route.params.page || 0)
       },
 
       /**
@@ -90,10 +99,12 @@
        * @return {Promise.<void>}
        */
       async fetchItems (parentId = 0) {
-        this.items = await api.get(parentId)
+        this.items = await this.$api.href.get(parentId)
       },
 
       listRecordSaved (record) {
+        if (record.parent_id !== this.currentPage) return
+
         let exists = this.items.find(item => item.id === record.id)
         if (exists) {
           return Object.assign(exists, record)

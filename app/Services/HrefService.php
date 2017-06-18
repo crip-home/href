@@ -69,8 +69,8 @@ class HrefService
 
     /**
      * Get most used tags.
-     * @param int $count
-     * @param int $minUsage
+     * @param  int $count
+     * @param  int $minUsage
      * @return Collection
      */
     public function getMostUsedTags(
@@ -82,8 +82,8 @@ class HrefService
 
     /**
      * Get most used categories.
-     * @param int $count
-     * @param int $minUsage
+     * @param  int $count
+     * @param  int $minUsage
      * @return Collection
      */
     public function getMostUsedCategories(
@@ -95,10 +95,10 @@ class HrefService
 
     /**
      * Paginate filtered hrefs.
-     * @param array $authors
-     * @param array $categories
-     * @param array $tags
-     * @param array $params
+     * @param  array $authors
+     * @param  array $categories
+     * @param  array $tags
+     * @param  array $params
      * @return Paginator
      */
     public function paginateFiltered(
@@ -115,8 +115,8 @@ class HrefService
 
     /**
      * Group paginator results by days.
-     * @param Paginator $hrefs
-     * @param string $group_by
+     * @param  Paginator $hrefs
+     * @param  string $group_by
      * @return array
      */
     public function groupByDays(
@@ -140,7 +140,7 @@ class HrefService
 
     /**
      * Get owned records of one parent element.
-     * @param int $parentId
+     * @param  int $parentId
      * @return Collection
      */
     public function filterOwned(int $parentId = 0): Collection
@@ -155,27 +155,26 @@ class HrefService
 
     /**
      * Find single href instance.
-     * @param $id
-     * @return \Illuminate\Database\Eloquent\Model
+     * @param  $id
+     * @return Href
      */
     public function find($id)
     {
-        return $this->hrefRepository
+        /** @var Href $record */
+        $record = $this->hrefRepository
             ->withUsersTagsAndCategories()
             ->find($id);
+
+        return $record;
     }
 
     /**
      * Save new instance of href to database.
-     * @param array $data
+     * @param  array $data
      * @return Href
      */
     public function create(array $data): Href
     {
-        if (!array_key_exists('parent_id', $data) || !$data['parent_id']) {
-            $data['parent_id'] = 0;
-        }
-
         $data['user_id'] = Auth::user()->id;
         $data['date_added'] = Carbon::now();
         $data['index'] = 1;
@@ -184,7 +183,39 @@ class HrefService
 
         /** @var Href $record */
         $record = $this->hrefRepository->create($data);
+        $record->category;
+        $record->user;
 
         return $record;
+    }
+
+    /**
+     * Update instance of href in to database.
+     * @param  array $data
+     * @param  int $id
+     * @return Href
+     */
+    public function update(array $data, int $id): Href
+    {
+        /** @var Href $record */
+        $record = $this->hrefRepository->update($data, $id);
+        $record->category;
+        $record->user;
+
+        return $record;
+    }
+
+    /**
+     * Determines is the href with child records under it.
+     * @param  int $id
+     * @return bool
+     */
+    public function hasChildRecords(int $id): bool
+    {
+        $count = $this->hrefRepository
+            ->get([['parent_id', $id]], ['id'])
+            ->count();
+
+        return $count > 0;
     }
 }

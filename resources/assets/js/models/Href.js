@@ -14,10 +14,9 @@ export default class Href {
     Object.assign(this, {date_added, id, index, parent_id, title, url, visible})
 
     this.category = category ? new Category(category) : null
+    this.category_id = category ? category.id : null
     this.user = user ? new User(user) : null
-    this.tags = tags.reduce((prew, curr) => {
-      return [...prew, new Tag(curr)]
-    }, [])
+    this.tags = tags.map(rec => new Tag(rec))
 
     this.audit = new Audit({
       created_at,
@@ -40,6 +39,13 @@ export default class Href {
     return {
       ...routes.hrefs,
       params: {page: this.id}
+    }
+  }
+
+  get editRoute () {
+    return {
+      ...routes.hrefEdit,
+      params: {page: this.parent_id, href: this.id}
     }
   }
 }

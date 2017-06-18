@@ -1,6 +1,7 @@
 <?php namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\ApiStoreHref;
+use App\Http\Requests\ApiHrefStore;
+use App\Http\Requests\ApiHrefUpdate;
 use App\Services\HrefService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -29,23 +30,21 @@ class HrefController extends Controller
 
     /**
      * Display a listing of the resource.
-     *
-     * @param int $id
      * @return JsonResponse
      */
-    public function index(int $id = 0): JsonResponse
+    public function index(): JsonResponse
     {
-        $data = $this->hrefService->filterOwned($id);
+        $data = $this->hrefService->filterOwned(0);
 
         return new JsonResponse($data);
     }
 
     /**
      * Store a newly created resource in storage.
-     * @param ApiStoreHref $request
+     * @param  ApiHrefStore $request
      * @return JsonResponse
      */
-    public function store(ApiStoreHref $request): JsonResponse
+    public function store(ApiHrefStore $request): JsonResponse
     {
         $data = $request->only([
             'title', 'url', 'visible', 'category_id', 'parent_id'
@@ -64,22 +63,24 @@ class HrefController extends Controller
     {
         $href = $this->hrefService->find($id);
 
-        if ($href->url) {
-            return new JsonResponse($href);
-        }
-
-        return $this->index($id);
+        return new JsonResponse($href);
     }
 
     /**
      * Update the specified resource in storage.
-     * @param  \Illuminate\Http\Request $request
+     * @param  ApiHrefUpdate $request
      * @param  int $id
      * @return JsonResponse
      */
-    public function update(Request $request, int $id): JsonResponse
+    public function update(ApiHrefUpdate $request, int $id): JsonResponse
     {
-        //
+        $data = $request->only([
+            'title', 'url', 'visible', 'category_id', 'parent_id', 'index'
+        ]);
+
+        $record = $this->hrefService->update($data, $id);
+
+        return new JsonResponse($record);
     }
 
     /**
