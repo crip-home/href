@@ -18,10 +18,8 @@ export default {
   async all () {
     try {
       let response = await axios.get(this.url)
-      const records = response.data.map(item => new Category(item))
-      config.log('api.categories.all()', records)
 
-      return records
+      return response.data.map(item => new Category(item))
     } catch (ex) {
       handleError(ex)
     }

@@ -1,5 +1,7 @@
 <template>
-  <div class="href-list row">
+  <div class="href-list">
+    <breadcrumb></breadcrumb>
+
     <div class="panel panel-primary">
       <div class="panel-heading">
         <span class="panel-title">People shared hrefs</span>
@@ -59,6 +61,7 @@
 
 <script>
   import * as routes from '../../router/routes'
+  import Breadcrumb from './Breadcrumb.vue'
 
   export default {
     name: 'href-list',
@@ -67,6 +70,8 @@
       this.$emit('href-list:created')
       this.fetchItems()
     },
+
+    components: {Breadcrumb},
 
     computed: {
       /**

@@ -20,10 +20,8 @@ export default {
   async get (parentId = 0) {
     try {
       let response = await axios.get(`${this.url}/list/${parentId}`)
-      let records = response.data.map(href => new Href(href))
-      config.log(`api.hrefs.get()`, {parentId}, records)
 
-      return records
+      return response.data.map(href => new Href(href))
     } catch (ex) {
       handleError(ex)
     }
@@ -38,10 +36,8 @@ export default {
     try {
       let url = `${this.url}/${id}`
       let response = await axios.get(url)
-      let record = new Href(response.data)
-      config.log(`api.hrefs.find()`, {id}, record)
 
-      return record
+      return new Href(response.data)
     } catch (ex) {
       handleError(ex)
     }
@@ -61,10 +57,6 @@ export default {
       return new Href(response.data)
     } catch (ex) {
       if (ex.response.status === 422) {
-        config.log(
-          `api.hrefs.save()`, {record}, 'validation failed',
-          ex.response.data
-        )
         throw new ValidationError(ex.response.data)
       }
 

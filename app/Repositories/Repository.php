@@ -183,7 +183,7 @@ abstract class Repository implements IRepository
      */
     protected function filter(array $filters = []): IRepository
     {
-        foreach ($filters as $filter => $index) {
+        foreach ($filters as $index => $filter) {
             if (is_array($filter)) {
                 $this->query = call_user_func_array(
                     [$this->getQuery(), 'where'], $filter

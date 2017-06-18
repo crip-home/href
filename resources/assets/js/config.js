@@ -8,10 +8,5 @@ export default {
   debug: true,
   token: getContent(token),
   apiUrl: getContent(apiUrl),
-  userToken: getContent(userToken),
-  log (...args) {
-    if (this.debug) {
-      console.log.apply(console, args)
-    }
-  }
+  userToken: getContent(userToken)
 }

@@ -62,7 +62,7 @@ class ApiHrefUpdate extends FormRequest
         $id = $this->get('id');
 
         if ($this->get('url')) {
-            return $hrefService->hasChildRecords($id);
+            return !$hrefService->hasChildRecords($id);
         }
 
         return true;
