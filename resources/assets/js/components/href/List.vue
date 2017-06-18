@@ -1,6 +1,5 @@
 <template>
   <div class="href-list">
-    <breadcrumb></breadcrumb>
 
     <div class="panel panel-primary">
       <div class="panel-heading">
@@ -10,6 +9,10 @@
             Add
           </router-link>
         </span>
+      </div>
+
+      <div class="panel-body bookmark-panel">
+        <breadcrumb></breadcrumb>
       </div>
 
       <table class="table table-hover">
@@ -48,10 +51,6 @@
         </router-link>
         </tbody>
       </table>
-
-      <div class="panel-body bookmark-panel">
-
-      </div>
     </div><!-- .panel -->
 
     <router-view @saved="listRecordSaved"></router-view>

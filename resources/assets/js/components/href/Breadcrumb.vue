@@ -62,4 +62,8 @@
   .router-link-active {
     font-weight: bold;
   }
+
+  .breadcrumb {
+    margin-bottom: 0;
+  }
 </style>
