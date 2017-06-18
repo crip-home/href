@@ -19,8 +19,7 @@ export default {
    */
   async get (parentId = 0) {
     try {
-      let url = parentId > 0 ? `${this.url}/${parentId}` : this.url
-      let response = await axios.get(url)
+      let response = await axios.get(`${this.url}/list/${parentId}`)
       let records = response.data.map(href => new Href(href))
       config.log(`api.hrefs.get()`, {parentId}, records)
 

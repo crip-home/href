@@ -4,7 +4,6 @@ use App\Http\Requests\ApiHrefStore;
 use App\Http\Requests\ApiHrefUpdate;
 use App\Services\HrefService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 /**
@@ -30,11 +29,12 @@ class HrefController extends Controller
 
     /**
      * Display a listing of the resource.
+     * @param  int $id
      * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(int $id): JsonResponse
     {
-        $data = $this->hrefService->filterOwned(0);
+        $data = $this->hrefService->filterOwned($id);
 
         return new JsonResponse($data);
     }

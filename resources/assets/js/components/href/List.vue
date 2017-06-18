@@ -65,7 +65,7 @@
 
     created () {
       this.$emit('href-list:created')
-      this.fetchItems(this.currentPage)
+      this.fetchItems()
     },
 
     computed: {
@@ -95,13 +95,17 @@
     methods: {
       /**
        * Set href records from api to component data object.
-       * @param [parentId]
        * @return {Promise.<void>}
        */
-      async fetchItems (parentId = 0) {
-        this.items = await this.$api.href.get(parentId)
+      async fetchItems () {
+        this.items = await this.$api.href.get(this.currentPage)
       },
 
+      /**
+       * Listen event of record saved.
+       * @param record
+       * @return {*}
+       */
       listRecordSaved (record) {
         if (record.parent_id !== this.currentPage) return
 
@@ -111,6 +115,12 @@
         }
 
         this.items.push(record)
+      }
+    },
+
+    watch: {
+      async currentPage () {
+        await this.fetchItems()
       }
     }
   }
