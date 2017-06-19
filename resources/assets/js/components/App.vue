@@ -1,5 +1,6 @@
 <template>
   <div>
+    <crip-loading color="rgb(13, 143, 243)"></crip-loading>
     <router-view></router-view>
   </div>
 </template>

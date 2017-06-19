@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Modal from 'crip-vue-bootstrap-modal'
+import Loading from 'crip-vue-loading'
 import App from './components/App.vue'
 import axios from 'axios'
 import router from './router'
@@ -8,6 +9,7 @@ import Api from './api'
 import './../sass/app.scss'
 
 Vue.use(Modal)
+Vue.use(Loading, {axios})
 Vue.use(Api)
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest'
