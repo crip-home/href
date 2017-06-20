@@ -172,7 +172,11 @@ abstract class Repository implements IRepository
      */
     public function count(): int
     {
-        return $this->getQuery()->count();
+        $count = $this->getQuery()->count();
+
+        $this->resetQuery();
+
+        return $count;
     }
 
     /**

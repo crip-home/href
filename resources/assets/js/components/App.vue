@@ -25,6 +25,11 @@
       this.$emit('app:created')
     },
 
+    /**
+     * The data object for the Vue instance. Vue will recursively convert its
+     * properties into getter/setters to make it “reactive”.
+     * @return {{edit}}
+     */
     data () {
       return {
         edit: routes.hrefEdit

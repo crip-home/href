@@ -1,5 +1,6 @@
 <?php namespace App\Contracts;
 
+use App\Tag;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Collection;
 
@@ -22,4 +23,11 @@ interface ITagRepository extends IRepository
      * @return Collection
      */
     public function getMostUsed(int $count, int $minUsage): Collection;
+
+    /**
+     * Find or create tag instance in database.
+     * @param string $tag
+     * @return Tag
+     */
+    public function findOrCreate(string $tag): Tag;
 }

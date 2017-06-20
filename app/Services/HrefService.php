@@ -179,10 +179,19 @@ class HrefService
         $data['date_added'] = Carbon::now();
         $data['index'] = 1;
 
-        // TODO: associate tags from parents
+        $parentId = $data['parent_id'];
+        $tagIds = [];
+        while ($parentId != 0) {
+            $parent = $this->hrefRepository->find($parentId);
+            $tagIds[] = $this->tagRepository->findOrCreate($parent->title)->id;
+            $parentId = $parent->parent_id;
+        }
 
         /** @var Href $record */
         $record = $this->hrefRepository->create($data);
+
+        $record->tags()->sync($tagIds);
+
         $record->category;
         $record->user;
 

@@ -43,8 +43,8 @@ class TagRepository extends Repository implements ITagRepository
 
     /**
      * Get most used tags.
-     * @param int $count
-     * @param int $minUsage
+     * @param  int $count
+     * @param  int $minUsage
      * @return Collection
      */
     public function getMostUsed(int $count, int $minUsage): Collection
@@ -54,5 +54,24 @@ class TagRepository extends Repository implements ITagRepository
             ->orderBy('tag_count', 'desc')
             ->limit($count)
             ->get();
+    }
+
+    /**
+     * Find or create tag instance in database.
+     * @param  string $tag
+     * @return Tag
+     */
+    public function findOrCreate(string $tag): Tag
+    {
+        $existingTag = $this->model->newQuery()->where('tag', $tag)->first();
+
+        if ($existingTag && $existingTag->exists) {
+            return $existingTag;
+        }
+
+        /** @var Tag $new */
+        $new = $this->create(compact('tag'));
+
+        return $new;
     }
 }
