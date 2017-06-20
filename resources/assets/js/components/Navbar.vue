@@ -1,7 +1,7 @@
 <template>
   <li>
     <a @click="logout" href="/logout">
-      Logout
+      Logout &nbsp;&nbsp;&nbsp;<span class="glyphicon glyphicon-log-out"></span>
     </a>
 
     <form id="logout-form"
@@ -28,10 +28,6 @@
       logout (event) {
         event.preventDefault()
         document.getElementById('logout-form').submit()
-      },
-
-      toggle () {
-        this.isOpen = !this.isOpen
       }
     }
   }

@@ -5,8 +5,12 @@
       <div class="panel-heading">
         <span class="panel-title">People shared hrefs</span>
         <span class="panel-action pull-right">
-          <router-link :to="createNewRoute" class="btn btn-sm btn-primary">
-            Add
+          <router-link :to="categoriesRoute" class="btn btn-xs btn-default">
+            Categories
+          </router-link>
+
+          <router-link :to="createNewRoute" class="btn btn-xs btn-default">
+            Create new
           </router-link>
         </span>
       </div>
@@ -92,7 +96,8 @@
 
     data () {
       return {
-        items: []
+        items: [],
+        categoriesRoute: routes.categories
       }
     },
 
