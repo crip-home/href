@@ -33,6 +33,10 @@
     },
 
     computed: {
+      /**
+       * Determines is there errors in a collection.
+       * @return {boolean}
+       */
       hasErrors () {
         return this.errors && this.errors.length > 0
       }

@@ -9,7 +9,6 @@
     name: 'form-errors',
 
     props: {
-
       /**
        * Collection of errors to show.
        * @type {{type: (Array|ArrayConstructor), default: (function(*): Array)}}
@@ -18,6 +17,10 @@
     },
 
     computed: {
+      /**
+       * Determines is there errors in a collection.
+       * @return {boolean}
+       */
       hasErrors () {
         return this.errors && this.errors.length > 0
       }

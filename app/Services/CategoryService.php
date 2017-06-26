@@ -47,4 +47,31 @@ class CategoryService
 
         return $records;
     }
+
+    /**
+     * Create category record.
+     * @param  array $data
+     * @return Category
+     */
+    public function create(array $data): Category
+    {
+        /** @var Category $record */
+        $record = $this->categoryRepository->create($data);
+
+        return $record;
+    }
+
+    /**
+     * Update category record.
+     * @param  array $data
+     * @param  int $id
+     * @return Category
+     */
+    public function update(array $data, int $id): Category
+    {
+        /** @var Category $record */
+        $record = $this->categoryRepository->update($data, $id);
+
+        return $record;
+    }
 }

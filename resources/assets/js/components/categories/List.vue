@@ -2,6 +2,11 @@
   <div class="category-list panel panel-primary">
     <div class="panel-heading">
       <span class="panel-title">Categories</span>
+      <span class="panel-action pull-right">
+          <router-link :to="hrefsRoute" class="btn btn-xs btn-default">
+            Hrefs
+          </router-link>
+        </span>
     </div>
 
     <table class="table table-hover">
@@ -21,7 +26,7 @@
         <td v-if="!category.$editMode">{{ category.title }}</td>
         <td v-else>
           <form class="form-inline" @submit.prevent="save($event, category)">
-            <form-group :errors="errors" :controlClass="''">
+            <form-group :errors="errors.title" :controlClass="''">
               <input
                   type="text"
                   v-model="category.title"
@@ -47,6 +52,7 @@
   import Vue from 'vue'
   import Category from '../../models/Category'
   import FormGroup from '../forms/FormGroup.vue'
+  import {hrefs} from '../../router/routes'
 
   export default {
     name: 'category-list',
@@ -60,7 +66,8 @@
     data () {
       return {
         categories: [],
-        errors: []
+        errors: {title: []},
+        hrefsRoute: {...hrefs, href: 0}
       }
     },
 
@@ -77,8 +84,13 @@
        * Enable edit mode for the category record.
        * @param {Event} e
        * @param {Category} category
+       * @param {Boolean} [isNew]
        */
-      editMode (e, category) {
+      editMode (e, category, isNew = false) {
+        if (!isNew) {
+          this.removeCreateRecord()
+        }
+
         // disable edit mode for all categories.
         this.categories.forEach(cat => {
           cat.$editMode = false
@@ -110,16 +122,21 @@
             return
           }
 
-          // remove cat 0 witch is for create
-          this.categories.splice(
-            this.categories.indexOf(
-              this.categeries.find(cat => cat.id === 0)
-            ), 1
-          )
+          this.removeCreateRecord()
 
           this.categories.push(newRecord)
         } catch (validation) {
+          console.log(validation)
           this.errors = validation.errors
+        }
+      },
+
+      removeCreateRecord () {
+        let createRecord = this.categories.find(cat => cat.id === 0)
+        let indexOfCreateRecord = this.categories.indexOf(createRecord)
+
+        if (indexOfCreateRecord > -1) {
+          this.categories.splice(indexOfCreateRecord, 1)
         }
       },
 
@@ -129,7 +146,7 @@
       addNewCategory () {
         let cat = new Category({title: '', id: 0})
         this.categories.push(cat)
-        this.editMode(null, cat)
+        this.editMode(null, cat, true)
       }
     }
   }

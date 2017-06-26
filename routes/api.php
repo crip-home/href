@@ -5,4 +5,6 @@ Route::resource('href', 'Api\\HrefController', ['only' => [
     'store', 'show', 'update', 'destroy'
 ]]);
 
-Route::resource('category', 'Api\\CategoryController');
+Route::resource('category', 'Api\\CategoryController', ['only' => [
+    'index', 'store', 'show', 'update'
+]]);

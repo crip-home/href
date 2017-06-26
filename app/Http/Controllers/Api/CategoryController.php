@@ -1,6 +1,8 @@
 <?php namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ApiCategoryStore;
+use App\Http\Requests\ApiCategoryUpdate;
 use App\Services\CategoryService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -39,12 +41,15 @@ class CategoryController extends Controller
 
     /**
      * Store a newly created resource in storage.
-     * @param  \Illuminate\Http\Request $request
+     * @param  ApiCategoryStore $request
      * @return JsonResponse
      */
-    public function store(Request $request): JsonResponse
+    public function store(ApiCategoryStore $request): JsonResponse
     {
-        //
+        $data = $request->only('title');
+        $record = $this->categoryService->create($data);
+
+        return new JsonResponse($record);
     }
 
     /**
@@ -61,22 +66,15 @@ class CategoryController extends Controller
 
     /**
      * Update the specified resource in storage.
-     * @param  \Illuminate\Http\Request $request
+     * @param  ApiCategoryUpdate $request
      * @param  int $id
      * @return JsonResponse
      */
-    public function update(Request $request, int $id): JsonResponse
+    public function update(ApiCategoryUpdate $request, int $id): JsonResponse
     {
-        //
-    }
+        $data = $request->only('title');
+        $record = $this->categoryService->update($data, $id);
 
-    /**
-     * Remove the specified resource from storage.
-     * @param  int $id
-     * @return JsonResponse
-     */
-    public function destroy(int $id): JsonResponse
-    {
-        //
+        return new JsonResponse($record);
     }
 }
