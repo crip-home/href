@@ -16,6 +16,8 @@
   <!-- Styles -->
   <link href="{{ asset('assets/styles.css') }}" rel="stylesheet">
 
+  @stack('styles')
+
 </head>
 <body>
 <div>

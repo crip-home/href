@@ -16,5 +16,7 @@ export default class Category {
       updated_by,
       updated_by_name
     })
+
+    this.$editMode = false
   }
 }

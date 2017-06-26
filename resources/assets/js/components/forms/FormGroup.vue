@@ -1,10 +1,11 @@
 <template>
-  <div class="form-group" :class="{'has-error': !!errors}">
+  <div class="form-group" :class="{'has-error': hasErrors}">
     <label
         class="control-label"
         :for="target"
         :id="`${target}-label`"
         :class="labelClass"
+        v-if="label"
     >
       {{ label }}
     </label>
@@ -29,6 +30,12 @@
       errors: {type: Array, default: () => null},
       labelClass: {type: String, default: () => 'col-lg-3 col-md-4 col-ms-5'},
       controlClass: {type: String, default: () => 'col-lg-8 col-md-7'}
+    },
+
+    computed: {
+      hasErrors () {
+        return this.errors && this.errors.length > 0
+      }
     }
   }
 </script>

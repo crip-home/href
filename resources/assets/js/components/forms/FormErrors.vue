@@ -1,5 +1,5 @@
 <template>
-  <ul class="help-block" v-if="errors">
+  <ul class="help-block" v-if="hasErrors">
     <li v-for="error in errors" class="text-danger">{{ error }}</li>
   </ul>
 </template>
@@ -15,6 +15,12 @@
        * @type {{type: (Array|ArrayConstructor), default: (function(*): Array)}}
        */
       errors: {type: Array, 'default': _ => []}
+    },
+
+    computed: {
+      hasErrors () {
+        return this.errors && this.errors.length > 0
+      }
     }
   }
 </script>
