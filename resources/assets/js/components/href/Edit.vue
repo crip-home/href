@@ -15,7 +15,7 @@
         <form-group target="url" :errors="errors.url" label="URL">
           <input
               type="text" class="form-control" name="url" id="url"
-              v-model="form.url"
+              v-model="form.url" @blur="urlChanged"
           />
         </form-group>
 
@@ -59,6 +59,8 @@
   import * as routes from '../../router/routes'
   import FormGroup from '../forms/FormGroup.vue'
   import Href from '../../models/Href'
+  import axios from 'axios'
+  import config from '../../config'
 
   export default {
     name: 'href-edit',
@@ -159,6 +161,20 @@
           this.closeModal()
         } catch (validationError) {
           this.errors = validationError.errors
+        }
+      },
+
+      urlChanged () {
+        if (!this.form.title && this.form.url) {
+          let uri = `${config.apiUrl}/href/title?` +
+            `url=${encodeURIComponent(this.form.url)}`
+
+          axios.get(uri)
+            .then(({data: {title}}) => {
+              if (title) {
+                this.form.title = title
+              }
+            })
         }
       }
     }

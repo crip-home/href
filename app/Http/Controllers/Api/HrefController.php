@@ -1,10 +1,11 @@
 <?php namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ApiHrefStore;
 use App\Http\Requests\ApiHrefUpdate;
 use App\Services\HrefService;
 use Illuminate\Http\JsonResponse;
-use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 
 /**
  * Class HrefController
@@ -85,12 +86,29 @@ class HrefController extends Controller
 
     /**
      * Remove the specified resource from storage.
-     *
      * @param  int $id
      * @return JsonResponse
      */
     public function destroy(int $id): JsonResponse
     {
         //
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function title(Request $request): JsonResponse
+    {
+        $title = '';
+        $str = file_get_contents($request->url);
+        if ($str) {
+            preg_match("/\<title\>(.*)\<\/title\>/i", $str, $output);
+            if(array_key_exists(1, $output)) {
+                $title = $output[1];
+            }
+        }
+
+        return new JsonResponse(compact('title'));
     }
 }
