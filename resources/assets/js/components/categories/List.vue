@@ -67,7 +67,7 @@
       return {
         categories: [],
         errors: {title: []},
-        hrefsRoute: {...hrefs, href: 0}
+        hrefsRoute: {...hrefs, params: {page: 0}}
       }
     },
 

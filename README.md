@@ -11,4 +11,7 @@ Link blog to share with world
 - Generate model docs: 
 
         php artisan --nowrite ide-helper:models
-        
+
+- Generate raw sql for migration
+
+        php artisan migrate --pretend > deploy/migrate.sql
