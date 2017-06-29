@@ -28,8 +28,8 @@
       target: {type: String, default: () => ''},
       label: {type: String, default: () => ''},
       errors: {type: Array, default: () => null},
-      labelClass: {type: String, default: () => 'col-lg-3 col-md-4 col-ms-5'},
-      controlClass: {type: String, default: () => 'col-lg-8 col-md-7'}
+      labelClass: {type: String, default: () => 'col-md-3 col-sm-4'},
+      controlClass: {type: String, default: () => 'col-sm-8'}
     },
 
     computed: {

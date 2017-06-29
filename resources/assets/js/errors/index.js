@@ -1,6 +1,6 @@
 export function handleError (error) {
   // TODO: handle error in user friendly way
-  console.error(error)
+  alert(error)
 }
 
 export async function execSafe (action = (_) => _, ...args) {

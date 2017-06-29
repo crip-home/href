@@ -77,7 +77,7 @@
        * @return {Promise.<void>}
        */
       async fetchCategories () {
-        this.categories = await this.$api.category.all()
+        this.categories = await this.$api.categories.all()
       },
 
       /**
@@ -113,7 +113,7 @@
        */
       async save (e, category) {
         try {
-          let newRecord = await this.$api.category.save(category)
+          let newRecord = await this.$api.categories.save(category)
           let oldCat = this.categories.find(cat => cat.id === newRecord.id)
 
           if (oldCat) {

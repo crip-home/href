@@ -2,6 +2,8 @@
 
 use App\Category;
 use App\Contracts\ICategoryRepository;
+use App\Href;
+use App\Repositories\HrefRepository;
 use Illuminate\Support\Collection;
 
 /**
@@ -16,12 +18,21 @@ class CategoryService
     private $categoryRepository;
 
     /**
+     * @var HrefRepository
+     */
+    private $hrefRepository;
+
+    /**
      * CategoryService constructor.
      * @param ICategoryRepository $categoryRepository
+     * @param HrefRepository $hrefRepository
      */
-    public function __construct(ICategoryRepository $categoryRepository)
+    public function __construct(
+        ICategoryRepository $categoryRepository, HrefRepository $hrefRepository
+    )
     {
         $this->categoryRepository = $categoryRepository;
+        $this->hrefRepository = $hrefRepository;
     }
 
     /**
@@ -73,5 +84,27 @@ class CategoryService
         $record = $this->categoryRepository->update($data, $id);
 
         return $record;
+    }
+
+    /**
+     * Guess page category getting it from closest parent value.
+     * @param  int $pageId
+     * @return Category|null
+     */
+    public function guessForPageChild(int $pageId): ?Category
+    {
+        $category = null;
+        while ($pageId != 0) {
+            /** @var Href $parent */
+            $parent = $this->hrefRepository->find($pageId);
+
+            if ($parent->category) {
+                return $parent->category;
+            }
+
+            $pageId = $parent->parent_id;
+        }
+
+        return null;
     }
 }

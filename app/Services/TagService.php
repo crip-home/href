@@ -1,6 +1,8 @@
 <?php namespace App\Services;
 
+use App\Contracts\IHrefRepository;
 use App\Contracts\ITagRepository;
+use App\Href;
 use App\Tag;
 
 /**
@@ -14,9 +16,22 @@ class TagService
      */
     private $tagRepository;
 
-    public function __construct(ITagRepository $tagRepository)
+    /**
+     * @var IHrefRepository
+     */
+    private $hrefRepository;
+
+    /**
+     * TagService constructor.
+     * @param ITagRepository $tagRepository
+     * @param IHrefRepository $hrefRepository
+     */
+    public function __construct(
+        ITagRepository $tagRepository, IHrefRepository $hrefRepository
+    )
     {
         $this->tagRepository = $tagRepository;
+        $this->hrefRepository = $hrefRepository;
     }
 
     /**
@@ -30,5 +45,23 @@ class TagService
         $model = $this->tagRepository->create($input);
 
         return $model;
+    }
+
+    /**
+     * Get tags list for page.
+     * @param  int $pageId
+     * @return array
+     */
+    public function getForPage(int $pageId): array
+    {
+        $tags = [];
+        while ($pageId != 0) {
+            /** @var Href $parent */
+            $parent = $this->hrefRepository->find($pageId);
+            $tags[] = $this->tagRepository->findOrCreate($parent->title);
+            $pageId = $parent->parent_id;
+        }
+
+        return $tags;
     }
 }

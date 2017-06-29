@@ -4,18 +4,26 @@
       <span slot="title">{{ title }}</span>
 
       <div class="modal-body">
-        <!-- TODO: add associated tags list here. -->
-        <form-group target="title" :errors="errors.title" label="Title">
-          <input
-              type="text" class="form-control" name="title" id="title"
-              v-model="form.title"
-          />
-        </form-group>
+        <div class="form-group" v-if="form.tags && form.tags.length">
+          <label class="control-label col-md-3 col-sm-4">
+            Tags
+          </label>
+          <div class="col-sm-8 tags-list">
+            <span v-for="item in form.tags">{{ item.tag }}&nbsp;</span>
+          </div>
+        </div>
 
         <form-group target="url" :errors="errors.url" label="URL">
           <input
               type="text" class="form-control" name="url" id="url"
               v-model="form.url" @blur="urlChanged"
+          />
+        </form-group>
+
+        <form-group target="title" :errors="errors.title" label="Title">
+          <input
+              type="text" class="form-control" name="title" id="title"
+              v-model="form.title"
           />
         </form-group>
 
@@ -33,7 +41,10 @@
           </select>
         </form-group>
 
-        <form-group target="visible" :errors="errors.visible">
+        <form-group
+            target="visible" :errors="errors.visible"
+            controlClass="col-sm-8 col-md-offset-3 col-sm-offset-4"
+        >
           <label title="Change visibility">
             <input type="checkbox" name="visible" v-model="form.visible">
             &nbsp;Visibility
@@ -67,16 +78,21 @@
 
     async created () {
       if (this.isEdit) {
-        this.form = await this.$api.href.find(this.id)
+        // in edit mode fetch form data from server api
+        this.form = await this.$api.hrefs.find(this.id)
       }
 
-      this.categories = await this.$api.category.all()
+      if (!this.isEdit) {
+        // otherwise fetch only tags by parent identifier
+        this.form.tags = await this.$api.tags.all(this.parentId)
+        const category = await this.$api.categories.guessFor(this.parentId)
 
-      if (this.form.category_id) {
-        this.form.category = this.categories.find(
-          category => category.id === this.form.category_id
-        )
+        if (category && category.id) {
+          this.form.category_id = category.id
+        }
       }
+
+      this.fetchCategories()
     },
 
     components: {FormGroup},
@@ -129,19 +145,42 @@
           title: '',
           url: '',
           visible: true,
-          category: null
+          category: null,
+          tags: []
         }
       }
     },
 
     methods: {
+      /**
+       * Close modal component.
+       * @return void
+       */
       closeModal () {
         this.close = true
       },
 
+      /**
+       * Change router location when modal is closed.
+       * @return void
+       */
       modalHidden () {
         // Go to parent route when modal is hidden
         this.$router.push({...routes.hrefs, page: this.parentId})
+      },
+
+      /**
+       * Fetch categories from server api for select component.
+       * @return void
+       */
+      async fetchCategories () {
+        this.categories = await this.$api.categories.all()
+
+        if (this.form.category_id) {
+          this.form.category = this.categories.find(
+            category => category.id === this.form.category_id
+          )
+        }
       },
 
       /**
@@ -156,7 +195,7 @@
             parent_id: this.parentId
           })
 
-          let saved = await this.$api.href.save(record)
+          let saved = await this.$api.hrefs.save(record)
           this.$emit('saved', saved)
           this.closeModal()
         } catch (validationError) {
@@ -164,6 +203,10 @@
         }
       },
 
+      /**
+       * Try fetch url title on blur event.
+       * @return void
+       */
       urlChanged () {
         if (!this.form.title && this.form.url) {
           let uri = `${config.apiUrl}/href/title?` +
@@ -180,3 +223,9 @@
     }
   }
 </script>
+
+<style>
+  .tags-list {
+    padding: 6px 27px;
+  }
+</style>

@@ -51,5 +51,20 @@ export default {
       handleError(ex)
       throw new Error('Unknown error')
     }
+  },
+
+  /**
+   * Guess category for record under page.
+   * @param pageId
+   * @return {Promise.<Category>}
+   */
+  async guessFor (pageId) {
+    try {
+      let response = await axios.get(`${this.url}/guess/${pageId}`)
+
+      return new Category(response.data)
+    } catch (ex) {
+      handleError(ex)
+    }
   }
 }

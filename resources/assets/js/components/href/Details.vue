@@ -37,7 +37,7 @@
     name: 'href-details',
 
     async created () {
-      this.href = await this.$api.href.find(this.$route.params.href)
+      this.href = await this.$api.hrefs.find(this.$route.params.href)
     },
 
     data () {

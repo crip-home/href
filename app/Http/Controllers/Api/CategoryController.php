@@ -77,4 +77,16 @@ class CategoryController extends Controller
 
         return new JsonResponse($record);
     }
+
+    /**
+     * Guess category for page child element.
+     * @param  int $pageId
+     * @return JsonResponse
+     */
+    public function guess(int $pageId): JsonResponse
+    {
+        $category = $this->categoryService->guessForPageChild($pageId);
+
+        return new JsonResponse($category);
+    }
 }

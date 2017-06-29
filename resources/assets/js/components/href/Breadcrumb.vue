@@ -40,7 +40,7 @@
         let result = []
 
         while (page > 0) {
-          let curr = await this.$api.href.find(page)
+          let curr = await this.$api.hrefs.find(page)
           page = curr.parent_id
 
           result.unshift(curr)

@@ -107,7 +107,7 @@
        * @return {Promise.<void>}
        */
       async fetchItems () {
-        this.items = await this.$api.href.get(this.currentPage)
+        this.items = await this.$api.hrefs.get(this.currentPage)
       },
 
       /**

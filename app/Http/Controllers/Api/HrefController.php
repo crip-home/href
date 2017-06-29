@@ -4,6 +4,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ApiHrefStore;
 use App\Http\Requests\ApiHrefUpdate;
 use App\Services\HrefService;
+use App\Services\TagService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -19,13 +20,22 @@ class HrefController extends Controller
     private $hrefService;
 
     /**
+     * @var TagService
+     */
+    private $tagService;
+
+    /**
      * HrefController constructor.
      * @param HrefService $hrefService
+     * @param TagService $tagService
      */
-    public function __construct(HrefService $hrefService)
+    public function __construct(
+        HrefService $hrefService, TagService $tagService
+    )
     {
         $this->middleware('jwt.auth');
         $this->hrefService = $hrefService;
+        $this->tagService = $tagService;
     }
 
     /**
@@ -95,7 +105,8 @@ class HrefController extends Controller
     }
 
     /**
-     * @param Request $request
+     * Fetch title from remote page.
+     * @param  Request $request
      * @return JsonResponse
      */
     public function title(Request $request): JsonResponse
@@ -104,11 +115,23 @@ class HrefController extends Controller
         $str = file_get_contents($request->url);
         if ($str) {
             preg_match("/\<title\>(.*)\<\/title\>/i", $str, $output);
-            if(array_key_exists(1, $output)) {
+            if (array_key_exists(1, $output)) {
                 $title = $output[1];
             }
         }
 
         return new JsonResponse(compact('title'));
+    }
+
+    /**
+     * Get tags for a page.
+     * @param  int $pageId
+     * @return JsonResponse
+     */
+    public function tags(int $pageId): JsonResponse
+    {
+        $tags = $this->tagService->getForPage($pageId);
+
+        return new JsonResponse($tags);
     }
 }

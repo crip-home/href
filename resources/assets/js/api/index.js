@@ -1,11 +1,12 @@
-import href from './hrefs'
-import category from './categories'
+import categories from './categories'
+import hrefs from './hrefs'
+import tags from './tags'
 
 export default {
   install (Vue) {
     // inject api objects to Vue instance
     Vue.prototype.$api = {
-      category, href
+      categories, hrefs, tags
     }
   }
 }

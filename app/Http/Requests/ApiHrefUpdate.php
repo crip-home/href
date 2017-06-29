@@ -28,7 +28,7 @@ class ApiHrefUpdate extends FormRequest
     {
         $rules = [
             'title' => 'required|between:3,255',
-            'url' => 'nullable|url|max:500',
+            'url' => 'nullable|url|max:500|unique:hrefs,url,' . $this->get('id'),
             'visible' => 'required|boolean',
             'category_id' => 'nullable|exists:categories,id',
         ];
