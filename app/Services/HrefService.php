@@ -227,4 +227,20 @@ class HrefService
 
         return $count > 0;
     }
+
+    /**
+     * Determine is the url already registered in the system.
+     * @param  string $url
+     * @return int|null
+     */
+    public function urlExists(string $url):?int
+    {
+        $hrefs = $this->hrefRepository->get([['url', '=', $url]], ['id']);
+
+        if ($hrefs->count()) {
+            return $hrefs[0]->id;
+        }
+
+        return null;
+    }
 }

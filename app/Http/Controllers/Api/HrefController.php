@@ -111,6 +111,12 @@ class HrefController extends Controller
      */
     public function title(Request $request): JsonResponse
     {
+        if ($id = $this->hrefService->urlExists($request->url)) {
+            // return error in case if someone already has registered this url
+            // in system
+            return new JsonResponse($this->hrefService->find($id), 422);
+        }
+
         $title = '';
         $str = file_get_contents($request->url);
         if ($str) {

@@ -37,10 +37,6 @@ export default {
       let method = record.id > 0 ? 'put' : 'post'
       let response = await axios[method](url, record)
 
-      if (!response.data) {
-        throw response
-      }
-
       return new Category(response.data)
     } catch (ex) {
       console.log(ex)

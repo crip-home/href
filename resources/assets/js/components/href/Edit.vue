@@ -212,10 +212,21 @@
           let uri = `${config.apiUrl}/href/title?` +
             `url=${encodeURIComponent(this.form.url)}`
 
+          this.errors = {}
+
           axios.get(uri)
             .then(({data: {title}}) => {
               if (title) {
                 this.form.title = title
+              }
+            })
+            .catch(({response: {data, status}}) => {
+              if (status === 422) {
+                this.errors = {
+                  url: [
+                    `URL is already in use by ${data.user.name} for "${data.title}"`
+                  ]
+                }
               }
             })
         }
