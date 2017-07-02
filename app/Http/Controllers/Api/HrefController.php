@@ -40,14 +40,11 @@ class HrefController extends Controller
 
     /**
      * Display a listing of the resource.
-     * @param  int $id
      * @return JsonResponse
      */
-    public function index(int $id): JsonResponse
+    public function index(): JsonResponse
     {
-        $data = $this->hrefService->filterOwned($id);
-
-        return new JsonResponse($data);
+        return new JsonResponse(['success' => true]);
     }
 
     /**
