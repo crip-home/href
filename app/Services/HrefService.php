@@ -243,4 +243,26 @@ class HrefService
 
         return null;
     }
+
+    public function createFromChrome($data)
+    {
+        $data['user_id'] = Auth::user()->id;
+        $data['date_added'] = Carbon::now();
+        $data['index'] = 1;
+
+        $tagIds = [];
+        $parentId = 0;
+        foreach ($data['tags'] as $tag) {
+            $parentId = $this->tagRepository->findOrCreate($tag)->id;
+            $tagIds[] = $parentId;
+        }
+        $data['parent_id'] =  $parentId;
+
+        /** @var Href $record */
+        $record = $this->hrefRepository->create($data);
+
+        $record->tags()->sync($tagIds);
+
+        return $record;
+    }
 }

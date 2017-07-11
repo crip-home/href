@@ -137,4 +137,33 @@ class HrefController extends Controller
 
         return new JsonResponse($tags);
     }
+
+    /**
+     * Check href existence in the system.
+     * @param  Request $request
+     * @return JsonResponse
+     */
+    public function exists(Request $request): JsonResponse
+    {
+        if ($this->hrefService->urlExists($request->url)) {
+            return new JsonResponse(true);
+        }
+
+        return new JsonResponse(false);
+    }
+
+    public function create(Request $request): JsonResponse
+    {
+        if ($this->hrefService->urlExists($request->url)) {
+            return new JsonResponse('URL already exists.', 422);
+        }
+
+        $data = $request->only([
+            'title', 'url', 'tags'
+        ]);
+
+        $record = $this->hrefService->createFromChrome($data);
+
+        return new JsonResponse($record);
+    }
 }
