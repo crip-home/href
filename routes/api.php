@@ -6,7 +6,7 @@ Route::get('tag/all/{pageId}', 'Api\\HrefController@tags');
 Route::get('href/title', 'Api\\HrefController@title');
 Route::get('href/exists', 'Api\\HrefController@exists');
 Route::post('href/create', 'Api\\HrefController@create');
-Route::get('href/list/{parent}', 'Api\\HrefController@index');
+Route::get('href/list/{parent}', 'Api\\HrefController@list');
 Route::resource('href', 'Api\\HrefController', ['only' => [
     'store', 'show', 'update', 'destroy', 'index'
 ]]);

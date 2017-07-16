@@ -152,6 +152,11 @@ class HrefController extends Controller
         return new JsonResponse(false);
     }
 
+    /**
+     * Create href for Chrome bookmarks app.
+     * @param Request $request
+     * @return JsonResponse
+     */
     public function create(Request $request): JsonResponse
     {
         if ($this->hrefService->urlExists($request->url)) {
@@ -159,11 +164,22 @@ class HrefController extends Controller
         }
 
         $data = $request->only([
-            'title', 'url', 'tags'
+            'title', 'url', 'tags', 'date'
         ]);
 
         $record = $this->hrefService->createFromChrome($data);
 
         return new JsonResponse($record);
+    }
+
+    /**
+     * @param  int $id
+     * @return JsonResponse
+     */
+    public function list(int $id): JsonResponse
+    {
+        $data = $this->hrefService->filterOwned($id);
+
+        return new JsonResponse($data);
     }
 }

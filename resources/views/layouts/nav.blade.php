@@ -1,6 +1,6 @@
 <!-- Left Side Of Navbar -->
 <ul class="nav navbar-nav navbar-left">
-  <li><a href="/">Home</a></li>
+  <li><a href="/about">About</a></li>
   <li><a href="http://www.crip.lv" target="_blank">CRIP</a></li>
 </ul>
 

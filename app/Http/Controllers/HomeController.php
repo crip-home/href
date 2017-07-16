@@ -24,4 +24,12 @@ class HomeController extends Controller
     {
         return redirect()->route('admin');
     }
+
+    /**
+     * About page
+     */
+    public function about()
+    {
+        return view('about');
+    }
 }

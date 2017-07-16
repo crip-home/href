@@ -244,10 +244,13 @@ class HrefService
         return null;
     }
 
-    public function createFromChrome($data)
+    public function createFromChrome(array $data)
     {
+        $dt = new Carbon();
+        $dt->timestamp = $data['date'] / 1000;
+
         $data['user_id'] = Auth::user()->id;
-        $data['date_added'] = Carbon::now();
+        $data['date_added'] = $dt->format('Y-m-d H:i:s');
         $data['index'] = 1;
 
         $tagIds = [];
